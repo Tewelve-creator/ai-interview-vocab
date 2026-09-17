@@ -141,6 +141,8 @@
     overflow-wrap:anywhere;
   }
   .phonetic-ipa{ font-size:.82rem; color: var(--ink); }
+  .phonetic-ipa .form2, .phonetic-homo .form2{ color: var(--ink-soft); }
+  .phonetic-ipa .form2::before, .phonetic-homo .form2::before{ content:"／"; color: var(--ink-faint); }
   .phonetic-ipa b, .phonetic-homo b, .phonetic-mean b{
     font-weight:600; color: var(--ink-soft); margin-right:5px; font-family:inherit;
   }
@@ -198,14 +200,15 @@
   <div class="kicker">Interview Vocabulary Index</div>
   <h1>AI 面试技术词汇，<em>随手一查</em>。</h1>
   <p class="lede">
-    408 条 AI / 大模型 / RAG / Agent / 后端 / 前端 / 工程面试高频词，按章节归类，配齐音标、中文谐音与程序员视角的通俗讲解。
+    408 条 AI / 大模型 / RAG / Agent / 后端 / 前端 / 工程面试高频词，按章节归类，配齐音标、中文谐音与程序员视角的通俗讲解。<br>
+    缩写类词条按「简写 ／ 全称」两段给出音标与谐音对照：音标行第一段为简写读音、第二段为全称读音，谐音行同理。
     输入关键词即可筛选，点击喇叭听发音；按 <kbd>/</kbd> 快速定位搜索框，<kbd>Esc</kbd> 清空筛选。
   </p>
   <div class="stats">
     <div class="stat"><b id="statTotal">—</b><span>词条总数</span></div>
     <div class="stat"><b id="statCat">—</b><span>章节数</span></div>
     <div class="stat"><b id="statHomo">—</b><span>含中文谐音</span></div>
-    <div class="stat"><b id="statIpa">—</b><span>含音标</span></div>
+    <div class="stat"><b id="statIpa">—</b><span>简写+全称双音标</span></div>
   </div>
 </header>
 
@@ -322,7 +325,7 @@
     if(cat && w.c !== cat) return false;
     if(!q) return true;
     var k = q.toLowerCase();
-    return (w.w + " " + w.h + " " + w.m + " " + w.n + " " + w.p + " " + w.c).toLowerCase().indexOf(k) >= 0;
+    return (w.w + " " + w.h + " " + (w.hf || "") + " " + w.m + " " + w.n + " " + w.p + " " + (w.pf || "") + " " + w.c).toLowerCase().indexOf(k) >= 0;
   }
 
   function cardHtml(w, q, idx){
@@ -339,8 +342,8 @@
           '</button>' +
         '</div>' +
         '<div class="phonetic-block">' +
-          (w.p ? '<div class="phonetic-ipa"><b>音标</b>' + esc(w.p) + '</div>' : '') +
-          (w.h ? '<div class="phonetic-homo"><b>谐音</b>' + esc(w.h) + '</div>' : '') +
+          (w.p ? '<div class="phonetic-ipa"><b>音标</b>' + esc(w.p) + (w.pf ? '<span class="form2">' + esc(w.pf) + '</span>' : '') + '</div>' : '') +
+          (w.h ? '<div class="phonetic-homo"><b>谐音</b>' + esc(w.h) + (w.hf ? '<span class="form2">' + esc(w.hf) + '</span>' : '') + '</div>' : '') +
           (w.m ? '<div class="phonetic-mean"><b>含义</b>' + esc(w.m) + '</div>' : '') +
         '</div>' +
         '<div class="cat-tag">' + esc(w.c) + '</div>' +
@@ -468,7 +471,7 @@
   $("statTotal").textContent = WORDS.length;
   $("statCat").textContent = CATS.length;
   $("statHomo").textContent = WORDS.filter(function(w){ return w.h; }).length;
-  $("statIpa").textContent = WORDS.filter(function(w){ return w.p; }).length;
+  $("statIpa").textContent = WORDS.filter(function(w){ return w.pf; }).length;
 
   buildChips();
   render();
