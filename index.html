@@ -290,17 +290,38 @@
     for(i=0;i<voices.length;i++){ if(/english/i.test(voices[i].name)) return voices[i]; }
     return null;
   }
+  /* ---------- 朗读文本：一律取“全称”，不读简写 ---------- */
+  function isAbbrLike(s){
+    // 小写字母少于 2 个的片段视为简写/代号（AI、API、K8s、H5 等）
+    return (String(s).match(/[a-z]/g) || []).length < 2;
+  }
+  function cleanSeg(s){
+    s = String(s || "");
+    s = s.replace(/[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]+/g, " ");  // 去掉中文与全角标点
+    s = s.replace(/^[A-Za-z]?\d+\s*[:：]\s*/, " ");                    // 去掉 "R58: " 之类编号
+    s = s.replace(/[.,;:!?]+\s*$/g, " ");
+    return s.replace(/\s+/g, " ").trim();
+  }
   function speakText(word){
-    var s = String(word || "").trim();
-    s = s.split("/")[0].trim();                       // 多义词只读第一段
-    s = s.replace(/^[A-Za-z]?\d+\s*[:：]\s*/, "");     // 去掉 "R58: " 之类编号
-    var paren = s.match(/^(.*?)\s*[（(]([^)）]*)[)）]\s*$/);
+    var raw = String(word || "").trim();
+    if(!raw) return "";
+    var paren = raw.match(/^(.*?)[（(]([^)）]*)[)）]\s*$/);
+    var cands = [], pick = "";
     if(paren){
-      var outer = paren[1].trim(), inner = paren[2].trim();
-      s = outer.length >= 3 ? outer : inner;
+      cands = [cleanSeg(paren[1]), cleanSeg(paren[2])].filter(function(x){ return !!x; });
+      if(cands.length === 2){
+        var o = isAbbrLike(cands[0]), n = isAbbrLike(cands[1]);
+        if(o && !n) pick = cands[1];                 // 简写 (全称) -> 读全称
+        else if(!o && n) pick = cands[0];            // 全称 (简写) -> 读全称
+        else pick = cands[1].length >= cands[0].length ? cands[1] : cands[0];
+      } else if(cands.length === 1){ pick = cands[0]; }
+    } else {
+      cands = raw.split("/").map(cleanSeg).filter(function(x){ return !!x; });
+      var full = cands.filter(function(x){ return !isAbbrLike(x); });
+      // 形如 “ES / Elasticsearch”“K8s / Kubernetes” 时读全称；并列词条仍读第一段
+      pick = (full.length === 1) ? full[0] : cands[0];
     }
-    s = s.replace(/[.,;:!?]+$/g, "").trim();
-    return s || String(word || "");
+    return pick || cands[0] || raw;
   }
   function speak(word, btn){
     var text = speakText(word);
@@ -308,9 +329,14 @@
     try{
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-US"; u.rate = 0.92; u.pitch = 1;
-      var v = pickVoice();
-      if(v) u.voice = v;
+      var zh = /[\u4e00-\u9fff]/.test(text);          // 纯中文词条（如“通义灵码”）走中文音色
+      u.lang = zh ? "zh-CN" : "en-US";
+      u.rate = text.length > 23 ? 1.0 : 0.9;          // 长全称略微提速、短词略放慢，听感更一致
+      u.pitch = 1;
+      if(!zh){
+        var v = pickVoice();
+        if(v) u.voice = v;
+      }
       if(btn){
         btn.classList.add("playing");
         var off = function(){ btn.classList.remove("playing"); };
@@ -335,7 +361,7 @@
       '<div class="word-col">' +
         '<div class="word-line">' +
           '<span class="word">' + hl(w.w, q) + '</span>' +
-          '<button type="button" class="speak-btn" data-word="' + esc(w.w) + '" title="朗读发音" aria-label="朗读 ' + esc(w.w) + '">' +
+          '<button type="button" class="speak-btn" data-word="' + esc(w.w) + '" title="朗读全称发音" aria-label="朗读 ' + esc(w.w) + '">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
             '<path d="M11 5 6 9H3v6h3l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path>' +
             '</svg>' +
