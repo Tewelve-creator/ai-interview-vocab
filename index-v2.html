@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 面试技术词汇速查 · 在线单词卡</title>
+<meta name="description" content="408 条 AI / 大模型 / RAG / Agent / 后端 / 前端 / 工程面试技术词汇，含音标、中文谐音、通俗讲解，支持搜索、章节筛选与朗读发音。">
+<style>
+  :root{
+    --paper:#f1ead9;
+    --paper-raised:#f8f2e4;
+    --ink:#2a251d;
+    --ink-soft:#6b6252;
+    --ink-faint:#a89d87;
+    --line:#d9cdae;
+    --brand:#2c5c53;
+    --brand-dark:#1c3f39;
+    --tag-a:#a8432a;
+    --tag-a-bg:#f3ddd2;
+    --tag-b:#b9852a;
+    --tag-b-bg:#f4e6c8;
+    --tag-c:#5f7256;
+    --tag-c-bg:#e4e8db;
+    --shadow: 0 1px 0 rgba(42,37,29,.06);
+    --radius: 14px;
+    --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, "Songti SC", "SimSun", serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--paper);
+    background-image: radial-gradient(circle at 1px 1px, rgba(42,37,29,.05) 1px, transparent 0);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  a{ color: var(--brand-dark); }
+  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 20px 80px; }
+
+  header.hero{ padding: 56px 20px 26px; max-width: 1120px; margin: 0 auto; }
+  .kicker{
+    font-family: var(--mono); font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+    color: var(--brand-dark); display:flex; align-items:center; gap:10px; margin-bottom: 14px;
+  }
+  .kicker::before{ content:""; width:26px; height:1px; background: var(--brand-dark); opacity:.6; }
+  h1{
+    font-family: var(--serif); font-weight:600;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height:1.06; margin:0 0 14px; letter-spacing:-.01em;
+  }
+  h1 em{ font-style:italic; font-weight:500; color: var(--brand-dark); }
+  .lede{
+    max-width: 660px; color: var(--ink-soft); font-size:1rem; line-height:1.7; margin:0 0 24px;
+  }
+  .lede kbd{
+    font-family: var(--mono); font-size:.78em; border:1px solid var(--line); background:#fff;
+    border-radius:5px; padding:1px 6px; color: var(--ink);
+  }
+  .stats{
+    display:flex; flex-wrap:wrap; gap:34px;
+    border-top:1px solid var(--line); padding-top:18px;
+  }
+  .stat b{ font-family: var(--serif); font-size:1.5rem; display:block; color: var(--ink); }
+  .stat span{ font-size:.74rem; color: var(--ink-faint); letter-spacing:.04em; }
+
+  .panel{
+    background: var(--paper-raised); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 22px; box-shadow: var(--shadow);
+  }
+  .search-row{ display:flex; gap:10px; margin-bottom:14px; }
+  .search-row input{
+    flex:1; font:inherit; font-size:1rem; padding:12px 16px; border-radius:10px;
+    border:1px solid var(--line); background:#fff; color: var(--ink);
+  }
+  .search-row input:focus{ outline:2px solid var(--brand); outline-offset:1px; }
+  .icon-btn{
+    font:inherit; font-size:.86rem; cursor:pointer; border-radius:10px; padding:0 16px;
+    border:1px solid var(--line); background:#fff; color: var(--ink-soft); white-space:nowrap;
+  }
+  .icon-btn:hover{ border-color: var(--brand); color: var(--brand-dark); }
+  .chip-groups{ display:flex; flex-direction:column; gap:10px; }
+  .chip-group{ display:flex; align-items:flex-start; gap:10px; flex-wrap:wrap; }
+  .chip-group .label{
+    font-family: var(--mono); font-size:.68rem; color: var(--ink-faint);
+    letter-spacing:.06em; padding-top:7px; min-width:52px;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-size:.82rem; padding:6px 13px; border-radius:999px;
+    border:1px solid var(--line); background:#fff; color: var(--ink-soft);
+    cursor:pointer; user-select:none;
+    transition: transform .12s ease, background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .chip:hover{ transform: translateY(-1px); border-color: var(--brand); }
+  .chip.active{ background: var(--brand-dark); border-color: var(--brand-dark); color:#f1ead9; }
+  .chip .n{ opacity:.65; font-family: var(--mono); font-size:.72em; margin-left:5px; }
+
+  .result-bar{
+    display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;
+    margin-bottom:12px; color: var(--ink-faint); font-size:.82rem;
+  }
+  .result-bar strong{ color: var(--ink); font-family: var(--mono); }
+  .result-bar .cur{ color: var(--brand-dark); }
+  .reset-link{
+    font-size:.8rem; color: var(--brand-dark); text-decoration:underline; cursor:pointer;
+    background:none; border:none; font-family:inherit; padding:0;
+  }
+
+  .list{ display:flex; flex-direction:column; gap:10px; }
+  .card{
+    background: var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; display:grid;
+    grid-template-columns: minmax(280px, 34%) 1fr 116px; gap:18px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{ border-color: var(--brand); box-shadow:0 4px 16px rgba(42,37,29,.08); }
+
+  .word-col{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+  .word-line{ display:flex; align-items:flex-start; gap:8px; flex-wrap:wrap; }
+  .word{
+    font-family: var(--serif); font-weight:600; font-size:1.22rem; line-height:1.25;
+    overflow-wrap:anywhere; word-break:break-word;
+  }
+  .speak-btn{
+    width:26px; height:26px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    color: var(--brand-dark); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; padding:0; margin-top:2px;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+    transition: background .15s ease, transform .1s ease, color .15s ease;
+  }
+  .speak-btn:hover{ background: var(--brand-dark); color:#f1ead9; }
+  .speak-btn:active{ transform: scale(.92); }
+  .speak-btn.playing{ background: var(--brand-dark); color:#f1ead9; }
+  .speak-btn svg{ width:12px; height:12px; }
+  .phonetic-block{ display:flex; flex-direction:column; gap:3px; }
+  .phonetic-ipa, .phonetic-homo, .phonetic-mean{
+    font-family: var(--mono); font-size:.74rem; color: var(--ink-faint); line-height:1.4;
+    overflow-wrap:anywhere;
+  }
+  .phonetic-ipa{ font-size:.82rem; color: var(--ink); }
+  .phonetic-ipa .form2, .phonetic-homo .form2{ color: var(--ink-soft); }
+  .phonetic-ipa .form2::before, .phonetic-homo .form2::before{ content:"／"; color: var(--ink-faint); }
+  .phonetic-ipa b, .phonetic-homo b, .phonetic-mean b{
+    font-weight:600; color: var(--ink-soft); margin-right:5px; font-family:inherit;
+  }
+  .phonetic-mean{ color: var(--ink-soft); font-size:.8rem; }
+  .cat-tag{ font-size:.7rem; color: var(--ink-faint); letter-spacing:.03em; margin-top:2px; }
+
+  .body-col{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+  .explain{
+    font-size:.93rem; line-height:1.6; color: var(--ink);
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .explain.open{ display:block; overflow:visible; }
+  .explain mark{ background: var(--tag-b-bg); color: var(--ink); padding:0 2px; border-radius:2px; }
+  .more-btn{
+    align-self:flex-start; font:inherit; font-size:.74rem; cursor:pointer;
+    color: var(--brand-dark); background:none; border:none; padding:0; text-decoration:underline;
+  }
+
+  .meta-col{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; text-align:right; }
+  .no-badge{
+    font-family: var(--mono); font-size:.7rem; color: var(--brand-dark);
+    background:#e4ece9; padding:4px 9px; border-radius:6px; white-space:nowrap;
+  }
+  .cat-badge{ font-size:.68rem; color: var(--ink-faint); line-height:1.4; }
+
+  .empty{ text-align:center; padding:60px 20px; color: var(--ink-faint); }
+  .empty .glyph{ font-family: var(--serif); font-size:2.4rem; font-style:italic; margin-bottom:10px; }
+  .empty button{
+    font:inherit; font-size:.86rem; margin-top:14px; padding:9px 16px; cursor:pointer;
+    border-radius:10px; border:1px solid var(--line); background: var(--paper-raised); color: var(--brand-dark);
+  }
+
+  footer{
+    max-width:1120px; margin:40px auto 0; padding:24px 20px 0; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    color: var(--ink-faint); font-size:.82rem; line-height:1.7;
+  }
+  footer .tag{ font-family: var(--mono); font-size:.72rem; }
+
+  @media (max-width: 760px){
+    header.hero{ padding:40px 20px 18px; }
+    .card{ grid-template-columns:1fr; gap:10px; }
+    .meta-col{ flex-direction:row; align-items:center; justify-content:flex-start; }
+    .stats{ gap:20px; }
+    .search-row{ flex-wrap:wrap; }
+    .search-row input{ min-width:100%; }
+    .speak-btn{ width:40px; height:40px; margin-top:0; }
+    .speak-btn svg{ width:16px; height:16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Interview Vocabulary Index</div>
+  <h1>AI 面试技术词汇，<em>随手一查</em>。</h1>
+  <p class="lede">
+    408 条 AI / 大模型 / RAG / Agent / 后端 / 前端 / 工程面试高频词，按章节归类，配齐音标、中文谐音与程序员视角的通俗讲解。<br>
+    缩写类词条按「简写 ／ 全称」两段给出音标与谐音对照：音标行第一段为简写读音、第二段为全称读音，谐音行同理。
+    输入关键词即可筛选，点击喇叭听发音；按 <kbd>/</kbd> 快速定位搜索框，<kbd>Esc</kbd> 清空筛选。
+  </p>
+  <div class="stats">
+    <div class="stat"><b id="statTotal">—</b><span>词条总数</span></div>
+    <div class="stat"><b id="statCat">—</b><span>章节数</span></div>
+    <div class="stat"><b id="statHomo">—</b><span>含中文谐音</span></div>
+    <div class="stat"><b id="statIpa">—</b><span>简写+全称双音标</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="搜索词汇、谐音、中文含义或讲解……" autocomplete="off" aria-label="搜索词汇">
+      <button type="button" class="icon-btn" id="randomBtn">随机抽一个</button>
+    </div>
+    <div class="chip-groups">
+      <div class="chip-group">
+        <div class="label">章节</div>
+        <div class="chips" id="catChips"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-bar">
+    <span>共 <strong id="resultCount">0</strong> 条匹配<span class="cur" id="filterHint"></span></span>
+    <button type="button" class="reset-link" id="resetBtn">清除筛选</button>
+  </div>
+
+  <div class="list" id="list"></div>
+  <div class="empty" id="emptyState" style="display:none">
+    <div class="glyph">∅</div>
+    <div>没有找到匹配的词条，换个关键词或章节试试。</div>
+    <button type="button" id="emptyReset">清除筛选，查看全部</button>
+  </div>
+</div>
+
+<footer>
+  <span>
+    数据来源：AI 面试题英语技术词汇速查表（408 条 · 13 章）<br>
+    纯静态页面，无外部依赖，双击本文件即可离线使用；发音调用浏览器内置语音合成。
+  </span>
+  <span class="tag">vocab-data.js · static single page</span>
+</footer>
+
+<script>
+window.VOCAB_DATA = {"meta":{"total":408,"cats":["一、AI 与大模型核心概念","二、大模型架构与算法","三、训练、微调与对齐","四、模型家族与开源模型/服务","五、RAG 检索增强与向量数据库","六、Agent 智能体与编排框架","七、模型推理、量化与部署","八、多模态与 AI 应用能力","九、后端服务、网络协议与运行时","十、数据库与中间件","十一、前端与 JavaScript / CSS","十二、工程、协作、安全与通用指标","十三、AI 编程工具与产品"]},"words":[{"i":1,"c":"一、AI 与大模型核心概念","w":"AI (Artificial Intelligence)","h":"诶爱（读「爱」）","p":"/ˌeɪ ˈaɪ/","m":"人工智能","n":"让机器模拟人类智能的技术总称。AI 应用开发者视角：它不只是\"算法\"，更是把模型、数据、产品结合起来落地的整套工程。","pf":"/ˌɑːtɪˈfɪʃəl ɪnˈtelɪdʒəns/","hf":"阿提菲舍尔·因泰利真斯"},{"i":2,"c":"一、AI 与大模型核心概念","w":"LLM (Large Language Model)","h":"艾勒艾姆","p":"/ˌɛl ˌɛl ˈɛm/","m":"大语言模型","n":"在海量文本上预训练的巨型神经网络，学会了\"接话\"能力，可用来对话、问答、写代码、做总结。程序员关心的是它的 API、上下文窗口、Token 计费与延迟。","pf":"/lɑːdʒ ˈlæŋɡwɪdʒ ˈmɒdl/","hf":"拉吉·兰格维吉·莫德尔"},{"i":3,"c":"一、AI 与大模型核心概念","w":"VLM (Vision Language Model)","h":"维艾勒艾姆","p":"/ˌviː ˌɛl ˈɛm/","m":"视觉语言模型","n":"能同时理解图片和文字的多模态模型，例如对截图\"看图说话\"、做 OCR 能力更强的理解。","pf":"/ˈvɪʒn ˈlæŋɡwɪdʒ ˈmɒdl/","hf":"维震·兰格维吉·莫德尔"},{"i":4,"c":"一、AI 与大模型核心概念","w":"Token","h":"托肯","p":"/ˈtoʊkən/","m":"词元","n":"LLM 处理文本的最小单位，可以是一个汉字、一个英文单词或一个子词片段。程序员视角：**计费与吞吐的基本单元**，1 个 token ≈ 0.6~1 个汉字，模型按 token 收费、上下文长度也按 token 算。"},{"i":5,"c":"一、AI 与大模型核心概念","w":"Tokenizer","h":"托肯奈泽","p":"/ˈtoʊkənaɪzər/","m":"分词器","n":"把原始文本切成 token 序列的工具（如 tiktoken、BPE 分词器）。Prompt 越长、Token 越多，成本越高。"},{"i":6,"c":"一、AI 与大模型核心概念","w":"Context","h":"康泰克斯特","p":"/ˈkɒntekst/","m":"上下文","n":"模型一次能\"看到\"的输入信息（历史对话、检索片段、工具返回）。程序员视角：上下文窗口是有限的，如何塞得下、省得省是工程难点（见\"上下文压缩\"）。"},{"i":7,"c":"一、AI 与大模型核心概念","w":"Prompt","h":"普朗普特","p":"/prɒmpt/","m":"提示词","n":"喂给模型的指令文本。程序员视角：Prompt 是个\"参数化配置\"，要版本管理、做 A/B 测试，写得好坏直接影响效果和成本。"},{"i":8,"c":"一、AI 与大模型核心概念","w":"Prompt Engineering","h":"普朗普特·恩吉尼林","p":"/prɒmpt ˌɛndʒɪˈnɪərɪŋ/","m":"提示词工程","n":"通过设计/优化提示词来提升模型输出质量的工程实践，包括给示例、给角色、给约束等。"},{"i":9,"c":"一、AI 与大模型核心概念","w":"Zero-shot","h":"泽若·少特","p":"/ˈzɪəroʊ ʃɒt/","m":"零样本","n":"不提供任何示例，直接让模型完成任务。适合通用任务，效果取决于模型能力。"},{"i":10,"c":"一、AI 与大模型核心概念","w":"Few-shot","h":"费尤·少特","p":"/ˈfjuː ʃɒt/","m":"少样本","n":"在 Prompt 里给几个输入-输出示例（In-Context Learning），让模型模仿格式与思路，比零样本更稳。"},{"i":11,"c":"一、AI 与大模型核心概念","w":"CoT (Chain of Thought)","h":"西欧提","p":"/ˌsiː oʊ ˈtiː/","m":"思维链","n":"引导模型\"先想后答\"、分步推理再给结论，能显著提升数学/逻辑类问题的准确率。可配合 few-shot 或让模型思考后再回答。","pf":"/tʃeɪn əv θɔːt/","hf":"切恩·奥夫·索特"},{"i":12,"c":"一、AI 与大模型核心概念","w":"ReAct (Reason + Act)","h":"瑞艾克特","p":"/ˌriːˈækt/","m":"推理+行动范式","n":"让 LLM 交替输出「Thought(思考) → Action(行动) → Observation(观察)」，边推理边调用工具拿结果再继续，是 Agent 的核心工作模式。","pf":"/ˈriːzn plʌs ækt/","hf":"瑞怎·普拉斯·艾克特"},{"i":13,"c":"一、AI 与大模型核心概念","w":"ToT (Tree of Thoughts)","h":"提欧提","p":"/ˌtiː oʊ ˈtiː/","m":"思维树","n":"CoT 的升级版：不只一路推理，而是探索多条\"思维路径\"（树状分支），搜索/回溯找最优解，适合复杂规划任务。","pf":"/triː əv θɔːts/","hf":"吹·奥夫·索茨"},{"i":14,"c":"一、AI 与大模型核心概念","w":"Reflexion","h":"瑞弗莱克申","p":"/rɪˈflɛkʃən/","m":"反思","n":"Agent 在执行后基于失败反馈做自我复盘（Reflection），把经验写回记忆，下一轮避免再犯同样的错。"},{"i":15,"c":"一、AI 与大模型核心概念","w":"Reasoning","h":"瑞泽宁","p":"/ˈriːzənɪŋ/","m":"推理","n":"模型的多步逻辑推导过程（如 DeepSeek-R1 展示的\"思考过程\"）。对应英文词常出现在\"Reasoning Model（推理模型）\"语境。"},{"i":16,"c":"一、AI 与大模型核心概念","w":"Hallucination","h":"哈鲁西内申（胡诌）","p":"/həˌluːsɪˈneɪʃən/","m":"幻觉","n":"模型一本正经地编造不存在的\"事实\"。程序员视角：AI 应用最大的风险点之一，需要用 RAG 检索、schema 校验、护栏等手段兜底。"},{"i":17,"c":"一、AI 与大模型核心概念","w":"Jailbreak","h":"杰尔布雷克","p":"/ˈdʒeɪlbreɪk/","m":"越狱","n":"用精心构造的恶意 Prompt 诱导模型绕过安全限制输出违规内容。工程上要加内容审核、指令护栏。"},{"i":18,"c":"一、AI 与大模型核心概念","w":"Guardrails","h":"嘎德瑞尔斯","p":"/ˈɡɑːrdreɪlz/","m":"护栏","n":"约束和校验模型输入/输出的整套机制（格式校验、内容安全、超范围拒绝），防止模型\"失控\"。"},{"i":19,"c":"一、AI 与大模型核心概念","w":"Alignment","h":"阿莱恩门特","p":"/əˈlaɪnmənt/","m":"对齐","n":"让模型输出符合人类价值观和偏好的训练过程（RLHF/DPO 都属于对齐技术）。"},{"i":20,"c":"二、大模型架构与算法","w":"Transformer","h":"传斯佛默","p":"/trænsˈfɔːrmər/","m":"变换器","n":"2017 年提出的深度学习架构，靠\"注意力机制\"并行处理序列，是所有现代大模型的底座。只剩一句话记忆：Attention Is All You Need。"},{"i":21,"c":"二、大模型架构与算法","w":"Attention","h":"阿腾申","p":"/əˈtɛnʃən/","m":"注意力机制","n":"让序列中每个位置根据与其他位置的相关性加权聚合信息。通俗说：模型\"看\"到一个词时，会主动关注句子中和它相关的词。"},{"i":22,"c":"二、大模型架构与算法","w":"Self-Attention","h":"赛尔夫·阿腾申","p":"/ˌsɛlf əˈtɛnʃən/","m":"自注意力","n":"序列内部自己和自己做注意力（词与词互相关联），是 Transformer 编码和解码的基础。"},{"i":23,"c":"二、大模型架构与算法","w":"MHA (Multi-Head Attention)","h":"艾姆艾尺诶","p":"/ˌɛm ˌeɪtʃ ˈeɪ/","m":"多头注意力","n":"把注意力切成多个\"头\"并行计算，每个头关注不同维度的关系，增强表达能力。","pf":"/ˌmʌlti ˈhed əˈtenʃn/","hf":"毛提·海德·阿腾申"},{"i":24,"c":"二、大模型架构与算法","w":"MQA (Multi-Query Attention)","h":"艾姆Q诶","p":"/ˌɛm ˌkjuː ˈeɪ/","m":"多查询注意力","n":"多个 query 头共享同一组 Key/Value，大幅减少 KV Cache 显存，但质量略降。","pf":"/ˌmʌlti ˈkwɪəri əˈtenʃn/","hf":"毛提·奎瑞·阿腾申"},{"i":25,"c":"二、大模型架构与算法","w":"GQA (Grouped-Query Attention)","h":"吉Q诶","p":"/ˌdʒiː ˌkjuː ˈeɪ/","m":"分组查询注意力","n":"MHA 与 MQA 的折中：query 头分组、组内共享 K/V。在\"省显存 vs 质量\"间平衡，是 Llama-2/3 等主流模型的标配。","pf":"/ɡruːpt ˈkwɪəri əˈtenʃn/","hf":"格鲁普特·奎瑞·阿腾申"},{"i":26,"c":"二、大模型架构与算法","w":"KV Cache (Key-Value Cache)","h":"凯·维·卡什","p":"/ˌkeɪ ˈviː kæʃ/","m":"键值缓存","n":"生成阶段把每步算好的 Key/Value 矩阵缓存下来，下一 token 只算新位置，避免重复计算历史，是推理加速的关键。代价是吃显存（也因此催生了 PagedAttention）。","pf":"/kiː ˈvæljuː kæʃ/","hf":"基·瓦留·卡什"},{"i":27,"c":"二、大模型架构与算法","w":"RoPE (Rotary Position Embedding)","h":"若普","p":"/roʊp/","m":"旋转位置编码","n":"用旋转矩阵把\"位置信息\"编码进 query/key 的注意力机制，外推到更长序列的能力好，主流 LLM 都用它。","pf":"/ˈrəʊtəri pəˈzɪʃn ɪmˈbedɪŋ/","hf":"若特瑞·珀济申·因贝丁"},{"i":28,"c":"二、大模型架构与算法","w":"ALiBi (Attention with Linear Biases)","h":"阿里比","p":"/ˈælɪbiː/","m":"注意力线性偏置","n":"按 token 距离给注意力分数加线性惩罚（越远越低），无需训练位置嵌入，天然支持超长上下文外推。","pf":"/əˈtenʃn wɪð ˈlɪniər ˈbaɪəsɪz/","hf":"阿腾申·维兹·里尼亚·拜厄西斯"},{"i":29,"c":"二、大模型架构与算法","w":"NTK scaling (Neural Tangent Kernel scaling)","h":"N·T·K·斯凯灵","p":"/ˌen ˌtiː ˈkeɪ ˈskeɪlɪŋ/","m":"NTK 缩放","n":"通过插值/缩放旋转频率把位置编码扩展到大上下文的技术（常说\"NTK RoPE 外推\"）。","pf":"/ˈnjʊərəl ˈtændʒənt ˈkɜːrnl ˈskeɪlɪŋ/","hf":"纽罗·坦真特·克内·斯凯灵"},{"i":30,"c":"二、大模型架构与算法","w":"FFN (Feed-Forward Network)","h":"艾弗艾弗恩","p":"/ˌɛf ˌɛf ˈɛn/","m":"前馈网络","n":"Transformer 每层的\"全连接子层\"，负责对注意力结果做非线性变换，约占模型大部分参数量。","pf":"/fiːd ˈfɔːwəd ˈnetwɜːk/","hf":"菲德·佛沃德·奈特沃克"},{"i":31,"c":"二、大模型架构与算法","w":"LayerNorm","h":"雷尔诺姆","p":"/ˈleɪər nɔːrm/","m":"层归一化","n":"对一层所有神经元的输出做归一化，稳定训练、加速收敛，Transformer 的标准组件。"},{"i":32,"c":"二、大模型架构与算法","w":"Softmax","h":"索福特麦克斯","p":"/ˈsɒftmæks/","m":"柔性最大值函数","n":"把一组实数变成和为 1 的概率分布。注意力的权重、分类输出、采样前的概率都由它产出。"},{"i":33,"c":"二、大模型架构与算法","w":"MoE (Mixture of Experts)","h":"艾姆欧伊","p":"/ˌɛm oʊ ˈiː/","m":"混合专家","n":"把一个\"大模型\"拆成多个\"专家子网络\"，每次只激活其中一部分（由门控路由）。用更低的算力达到更大模型的效果，代表：Mixtral、Qwen-MoE。","pf":"/ˈmɪkstʃər əv ˈekspɜːts/","hf":"米克斯彻·奥夫·艾克斯珀茨"},{"i":34,"c":"二、大模型架构与算法","w":"Decoder-only","h":"迪扣德·昂利","p":"/dɪˈkoʊdər ˈoʊnli/","m":"仅解码器","n":"只保留 Transformer 解码器部分，做\"下一个词预测\"，是 GPT/Qwen/LLaMA 等主流生成式模型的结构。"},{"i":35,"c":"二、大模型架构与算法","w":"Encoder-only","h":"恩扣德·昂利","p":"/ɪnˈkoʊdər ˈoʊnli/","m":"仅编码器","n":"只保留编码器部分，擅长理解（如 BERT），多用于文本分类、Embedding。"},{"i":36,"c":"二、大模型架构与算法","w":"Encoder-Decoder","h":"恩扣德-迪扣德","p":"/ɪnˈkoʊdər dɪˈkoʊdər/","m":"编码器-解码器","n":"编码器理解输入、解码器生成输出（如 T5），适合翻译、摘要等序列转换任务。"},{"i":37,"c":"二、大模型架构与算法","w":"BPE (Byte Pair Encoding)","h":"碧屁伊","p":"/ˌbiː piː ˈiː/","m":"字节对编码","n":"主流子词分词算法：从字符/字节开始反复合并最高频相邻对构建词表，兼顾\"词表小 + 词表外词少\"。","pf":"/baɪt peər ɪnˈkəʊdɪŋ/","hf":"拜特·派尔·因扣丁"},{"i":38,"c":"二、大模型架构与算法","w":"WordPiece","h":"沃德皮斯","p":"/ˈwɜːrd piːs/","m":"词片分词","n":"BERT/中文模型常用的分词算法，按\"词片\"拆分，同样解决 OOV 问题。"},{"i":39,"c":"二、大模型架构与算法","w":"Subword","h":"萨布沃德","p":"/ˈsʌbwɜːrd/","m":"子词","n":"介于\"整词\"和\"字符\"之间的分词粒度（BPE/WordPiece 产出的单元），LLM 词表的基本成分。"},{"i":40,"c":"二、大模型架构与算法","w":"OOV (Out-Of-Vocabulary)","h":"欧欧维","p":"/ˌoʊ oʊ ˈviː/","m":"词表外词","n":"不在模型词表里的词。子词分词技术让 OOV 几乎消失。","pf":"/aʊt əv vəˈkæbjələri/","hf":"奥特·奥夫·沃卡比尤勒瑞"},{"i":41,"c":"二、大模型架构与算法","w":"Temperature","h":"坦普拉切","p":"/ˈtɛmpərətʃər/","m":"温度系数","n":"采样时的随机度参数。低温度输出更确定保守（适合代码/事实问答），高温度更有创造力（适合文案）。"},{"i":42,"c":"二、大模型架构与算法","w":"Top-K","h":"托普K","p":"/tɒp keɪ/","m":"前 K 采样","n":"只从概率最高的 K 个候选 token 里采样。K 越小越保守。"},{"i":43,"c":"二、大模型架构与算法","w":"Top-p","h":"托普屁","p":"/tɒp piː/","m":"核采样","n":"从累计概率达到 p 的最小候选集合中采样，是比 Top-K 更灵活的随机度控制。"},{"i":44,"c":"二、大模型架构与算法","w":"Sampling","h":"三普林","p":"/ˈsæmplɪŋ/","m":"采样","n":"生成时按概率分布\"抽\"下一个 token 的过程（相对贪心解码）。"},{"i":45,"c":"二、大模型架构与算法","w":"Greedy","h":"格瑞迪","p":"/ˈɡriːdi/","m":"贪心解码","n":"每步只取概率最高的 token，确定性最强但容易重复/缺少多样性。"},{"i":46,"c":"二、大模型架构与算法","w":"Beam Search","h":"碧姆·瑟奇","p":"/biːm sɜːrtʃ/","m":"集束搜索","n":"每一步保留 top-k 个候选序列并行扩展，兼顾质量和多样性，常用于翻译/生成任务。"},{"i":47,"c":"二、大模型架构与算法","w":"Cosine","h":"扣赛因","p":"/ˈkoʊsaɪn/","m":"余弦相似度","n":"向量之间夹角的余弦值（-1~1），是语义检索最常用的距离度量，值越大越相似。"},{"i":48,"c":"二、大模型架构与算法","w":"FLOPs (Floating Point Operations Per Second)","h":"弗洛普斯","p":"/flɒps/","m":"浮点运算次数","n":"衡量模型一次推理/训练所需的计算量，评估算力需求的重要指标。","pf":"/ˈfloʊtɪŋ pɔɪnt ˌɒpəˈreɪʃənz pɜːr ˈsekənd/","hf":"弗洛廷·泼因特·奥泼瑞申斯·珀·塞肯德"},{"i":49,"c":"二、大模型架构与算法","w":"Quantization","h":"匡泰泽申","p":"/ˌkwɒntɪˈzeɪʃən/","m":"量化（见 GPTQ/AWQ/GGUF/FP16/INT8）","n":"用更低精度（如 8bit/4bit）表示权重，显著降低显存和加速，代价是轻微精度损失。"},{"i":50,"c":"三、训练、微调与对齐","w":"Pre-training","h":"普瑞·吹宁","p":"/ˌpriː ˈtreɪnɪŋ/","m":"预训练","n":"在海量无标注文本上训练模型学习\"语言知识\"，是大模型的第 0 步，通常需要巨大算力。"},{"i":51,"c":"三、训练、微调与对齐","w":"Post-Training","h":"波斯特·吹宁","p":"/ˌpoʊst ˈtreɪnɪŋ/","m":"后训练","n":"预训练之后让模型\"上岗\"的阶段，包括 SFT、对齐、推理强化等，是开源模型二次开发的重点。"},{"i":52,"c":"三、训练、微调与对齐","w":"Fine-tuning","h":"法因·图宁","p":"/ˌfaɪn ˈtjuːnɪŋ/","m":"微调","n":"在预训练模型基础上用领域/任务数据继续训练，让模型适配特定业务（如客服话术、专有术语）。"},{"i":53,"c":"三、训练、微调与对齐","w":"SFT (Supervised Fine-Tuning)","h":"艾斯艾弗提","p":"/ˌɛs ˌɛf ˈtiː/","m":"监督微调","n":"用人工标注的\"问题-标准答案\"数据微调，让基座模型学会\"听懂指令并规范输出\"，几乎所有模型上线前都要做。","pf":"/ˈsuːpəvaɪzd faɪn ˈtjuːnɪŋ/","hf":"苏泊外兹德·法因·图宁"},{"i":54,"c":"三、训练、微调与对齐","w":"LoRA (Low-Rank Adaptation)","h":"罗拉","p":"/ˈlɔːrə/","m":"低秩适配","n":"冻结原始权重，只训练很小的低秩增量矩阵（Adapter）。用极低显存做微调，权重文件小、可插拔，业界微调主力方案。","pf":"/ləʊ ræŋk ˌædæpˈteɪʃn/","hf":"洛·软克·阿达普泰申"},{"i":55,"c":"三、训练、微调与对齐","w":"QLoRA (Quantized Low-Rank Adaptation)","h":"丘·劳拉","p":"/ˈkjuː ˈlɔːrə/","m":"量化版 LoRA","n":"把基座模型量化到 4bit 再叠加 LoRA 训练，单张消费级显卡也能微调几十 B 的大模型。","pf":"/ˈkwɒntaɪzd loʊ ræŋk ˌædæpˈteɪʃn/","hf":"匡泰兹德·楼·让克·阿达普泰申"},{"i":56,"c":"三、训练、微调与对齐","w":"Multi-LoRA (Multi Low-Rank Adaptation)","h":"马提·劳拉","p":"/ˈmʌlti ˈlɔːrə/","m":"多 LoRA 矩阵","n":"一个基座模型上挂多套 LoRA 适配器，按任务/租户切换，实现\"一套底座服务多种业务\"。","pf":"/ˈmʌlti loʊ ræŋk ˌædæpˈteɪʃn/","hf":"马提·楼·让克·阿达普泰申"},{"i":57,"c":"三、训练、微调与对齐","w":"Adapter","h":"阿达普特","p":"/əˈdæptər/","m":"适配器模块","n":"插在模型层间的小型可训练模块，微调时只训练它，避免改动主模型权重（LoRA 即一种）。"},{"i":58,"c":"三、训练、微调与对齐","w":"RLHF (RL from Human Feedback)","h":"阿艾勒艾尺艾弗","p":"/ˌɑːr ˌɛl ˌeɪtʃ ˈɛf/","m":"基于人类反馈的强化学习","n":"三步走：SFT 后训练奖励模型（模拟人类打分），再用强化学习让模型输出更讨人喜欢。成本高但效果好。","pf":"/ˌɑːr ˈel frəm ˈhjuːmən ˈfiːdbæk/","hf":"阿艾勒·弗罗姆·休门·菲德拜克"},{"i":59,"c":"三、训练、微调与对齐","w":"PPO (Proximal Policy Optimization)","h":"屁屁欧","p":"/ˌpiː ˌpiː ˈoʊ/","m":"近端策略优化","n":"RLHF 中最常用的强化学习算法，通过裁剪策略更新幅度保证训练稳定。","pf":"/ˈprɒksɪml ˈpɒləsi ˌɒptɪmaɪˈzeɪʃn/","hf":"普若克西莫·泼勒西·奥普提麦泽申"},{"i":60,"c":"三、训练、微调与对齐","w":"RM (Reward Model)","h":"阿艾姆","p":"/ˌɑːr ˈɛm/","m":"奖励模型","n":"给模型输出打分的\"裁判模型\"，在 RLHF 中替代人工反馈、实现规模化偏好评判。","pf":"/rɪˈwɔːd ˈmɒdl/","hf":"瑞沃德·莫德尔"},{"i":61,"c":"三、训练、微调与对齐","w":"DPO (Direct Preference Optimization)","h":"迪屁欧","p":"/ˌdiː ˌpiː ˈoʊ/","m":"直接偏好优化","n":"跳过独立奖励模型，直接用人类偏好数据（好/差答案对比）优化策略。更简单、更稳定，是 RLHF 的主流简化替代。","pf":"/dəˈrekt ˈprefrəns ˌɒptɪmaɪˈzeɪʃn/","hf":"迪瑞克特·普瑞弗伦斯·奥普提麦泽申"},{"i":62,"c":"三、训练、微调与对齐","w":"GRPO (Group Relative Policy Optimization)","h":"吉屁欧","p":"/ˌdʒiː ˌɑːr ˌpiː ˈoʊ/","m":"群体相对策略优化","n":"DeepSeek-R1 使用的强化学习算法：去掉了 PPO 的价值网络，用\"同一问题一组答案的相对好坏\"估计优势，省显存且训练更稳。","pf":"/ɡruːp ˈrelətɪv ˈpɒləsi ˌɒptɪmaɪˈzeɪʃn/","hf":"格鲁普·瑞勒提夫·泼勒西·奥普提麦泽申"},{"i":63,"c":"三、训练、微调与对齐","w":"Preference","h":"普瑞弗伦斯","p":"/ˈprɛfərəns/","m":"偏好","n":"人类对\"哪个回答更好\"的判断，DPO/RLHF 的训练信号来源。"},{"i":64,"c":"三、训练、微调与对齐","w":"Reinforcement Learning","h":"瑞因福斯门特·勒宁","p":"/ˌriːɪnˈfɔːrsmənt ˈlɜːrnɪŋ/","m":"强化学习（GRPO/PPO 所属大类）","n":"让模型在\"奖励信号\"下学会策略优化的学习范式（区别于监督学习）。"},{"i":65,"c":"三、训练、微调与对齐","w":"Continuous Batching","h":"康提纽斯·白庆","p":"/kənˈtɪnjuəs ˈbætʃɪŋ/","m":"连续批处理","n":"推理框架不再等整批完成，而是动态把新请求插入 GPU 空闲槽位（迭代级调度），大幅提升吞吐，vLLM 的核心特性。"},{"i":66,"c":"三、训练、微调与对齐","w":"Loss","h":"劳斯","p":"/lɒs/","m":"损失函数","n":"训练时衡量\"预测与真实答案差距\"的数值，反向传播用它更新权重，训练目标就是让 loss 下降。"},{"i":67,"c":"四、模型家族与开源模型/服务","w":"GPT / GPT-3.5 / GPT-4o","h":"吉屁提 / 吉屁提三瑞泡因特法伊夫 / 吉屁提佛欧","p":"/ˌdʒiː ˌpiː ˈtiː / ˌdʒiː ˌpiː ˈtiː θriː pɔɪnt faɪv / ˌdʒiː ˌpiː ˈtiː fɔːr oʊ/","m":"OpenAI 系列模型","n":"行业标杆闭源模型，API 生态成熟，ChatGPT 的底层。4o 支持多模态与更快的流式输出。"},{"i":68,"c":"四、模型家族与开源模型/服务","w":"ChatGPT (Chat Generative Pre-trained Transformer)","h":"洽特·G·P·T","p":"/ˈtʃæt ˌdʒiː ˌpiː ˈtiː/","m":"OpenAI 的对话产品","n":"让大模型走进大众的产品，也是\"ChatGPT\"式 UI 交互范式的代名词。","pf":"/tʃæt ˈdʒenərətɪv priː ˈtreɪnd trænsˈfɔːrmər/","hf":"洽特·杰纳瑞提夫·普瑞·吹恩德·传斯佛默"},{"i":69,"c":"四、模型家族与开源模型/服务","w":"Claude","h":"克劳德","p":"/klɔːd/","m":"Anthropic 的模型","n":"以\"长上下文、指令遵循、代码能力强\"著称，常作为国内大模型之外的高质量备选供应商。"},{"i":70,"c":"四、模型家族与开源模型/服务","w":"Anthropic","h":"安斯若匹克","p":"/ænˈθrɒpɪk/","m":"发布 Claude 的公司","n":"提出 MCP 协议与 Constitutional AI（宪法 AI）的 AI 研究公司。"},{"i":71,"c":"四、模型家族与开源模型/服务","w":"OpenAI","h":"欧盆诶爱","p":"/ˈoʊpən ˌeɪ ˈaɪ/","m":"发布 GPT 的公司","n":"AI 领域的头部玩家，其 API 生态（Function Calling、Embedding）是行业事实标准。"},{"i":72,"c":"四、模型家族与开源模型/服务","w":"LLaMA / Llama-2","h":"拉玛 / 拉玛图","p":"/ˈlɑːmə / ˈlɑːmə tuː/","m":"Meta 开源大模型","n":"开源模型的重要里程碑，后续各类微调与量化社区生态都基于它展开。"},{"i":73,"c":"四、模型家族与开源模型/服务","w":"Qwen / Qwen-MoE","h":"昆 / 昆·艾姆欧伊","p":"/kjuː wɛn / kjuː wɛn ˌɛm oʊ ˈiː/","m":"阿里的通义千问","n":"国内开源生态最活跃的模型系列，中文能力强，Qwen-MoE 是混合专家架构版本。"},{"i":74,"c":"四、模型家族与开源模型/服务","w":"DeepSeek / DeepSeek-V3 / DeepSeek-R1","h":"迪普西克 / 迪普西克维三 / 迪普西克阿万","p":"/diːp siːk / diːp siːk ˌviː ˈθriː / diːp siːk ˌɑːr ˈwʌn/","m":"深度求索模型","n":"以\"开源 + 极致性价比\"著称。V3 是高效 MoE 基座，R1 是带思维链显示的推理模型（GRPO 训练）。"},{"i":75,"c":"四、模型家族与开源模型/服务","w":"GLM (General Language Model)","h":"G·L·M","p":"/ˌdʒiː ˌel ˈem/","m":"智谱开源模型","n":"智谱 AI 推出的 GLM 系列大模型（基于 ChatGLM）。","pf":"/ˈdʒenərəl ˈlæŋɡwɪdʒ ˈmɒdl/","hf":"杰纳罗·兰格维吉·莫德尔"},{"i":76,"c":"四、模型家族与开源模型/服务","w":"Mistral / Mixtral","h":"米斯特拉尔 / 米克斯楚尔","p":"/ˈmɪstrəl / ˈmɪkstrəl/","m":"Mistral AI 的模型","n":"Mixtral 是其 8 专家混合架构的稀疏 MoE 模型，开源且本地可跑。"},{"i":77,"c":"四、模型家族与开源模型/服务","w":"BERT (Bidirectional Encoder Representations from Transformers)","h":"伯特","p":"/bɜːrt/","m":"Google 预训练模型","n":"编码器架构的\"理解型\"模型代表，Embedding、文本分类时代的主角。","pf":"/ˌbaɪdəˈrekʃənl ɪnˈkoʊdər ˌreprɪzenˈteɪʃnz frəm trænsˈfɔːrmərz/","hf":"拜德瑞克申诺·因扣德尔·瑞普瑞森泰申斯·弗罗姆·传斯佛默斯"},{"i":78,"c":"四、模型家族与开源模型/服务","w":"T5 (Text-to-Text Transfer Transformer)","h":"提·法伊夫","p":"/ˌtiː ˈfaɪv/","m":"Google 文本转换模型","n":"Encoder-Decoder 架构，把各类 NLP 任务统一成\"文本到文本\"。","pf":"/tekst tuː tekst ˈtrænsfɜːr trænsˈfɔːrmər/","hf":"泰克斯特·吐·泰克斯特·传斯佛·传斯佛默"},{"i":79,"c":"四、模型家族与开源模型/服务","w":"Ollama","h":"欧拉玛","p":"/oʊˈlɑːmə/","m":"本地模型运行工具","n":"一条命令跑开源模型（GGUF 格式），本地开发调试、私有化部署的常用工具。"},{"i":80,"c":"四、模型家族与开源模型/服务","w":"llama.cpp","h":"拉玛·西屁屁","p":"/ˈlɑːmə ˌsiː ˌpiː ˈpiː/","m":"C++ 推理库","n":"让大模型在 CPU/低配机器上也能跑的轻量推理实现，支持边缘部署。"},{"i":81,"c":"四、模型家族与开源模型/服务","w":"vLLM (virtual Large Language Model)","h":"维·L·L·M","p":"/ˌviː ˌel ˌel ˈem/","m":"高性能推理框架","n":"主打 PagedAttention + Continuous Batching，吞吐高、生态好，生产环境最主流的选择之一。","pf":"/ˈvɜːrtʃuəl lɑːrdʒ ˈlæŋɡwɪdʒ ˈmɒdl/","hf":"沃求尔·拉吉·兰格维吉·莫德尔"},{"i":82,"c":"四、模型家族与开源模型/服务","w":"SGLang (Structured Generation Language)","h":"S·G·朗","p":"/ˌes ˌdʒiː ˈlæŋ/","m":"推理框架","n":"主打 RadixAttention（前缀复用）、结构化输出生成，多场景推理性能很突出。","pf":"/ˈstrʌktʃərd ˌdʒenəˈreɪʃn ˈlæŋɡwɪdʒ/","hf":"斯特拉克车德·杰纳瑞申·兰格维吉"},{"i":83,"c":"四、模型家族与开源模型/服务","w":"TGI (Text Generation Inference)","h":"提吉艾","p":"/ˌtiː ˌdʒiː ˈaɪ/","m":"HuggingFace 推理引擎","n":"面向生产的模型推理服务，和 vLLM 常被对比选型。","pf":"/tekst ˌdʒenəˈreɪʃn ˈɪnfərəns/","hf":"泰克斯特·杰内瑞申·因弗伦斯"},{"i":84,"c":"四、模型家族与开源模型/服务","w":"GGUF (GPT-Generated Unified Format)","h":"G·G·U·F","p":"/ˌdʒiː ˌdʒiː ˌjuː ˈef/","m":"模型量化/分发格式","n":"llama.cpp 生态的模型格式，配合量化等级（Q4_K_M/Q5_K_M/Q8 等）在本地跑。","pf":"/ˌdʒiː ˌpiː ˌtiː ˈdʒenəreɪtɪd ˈjuːnɪfaɪd ˈfɔːrmæt/","hf":"G·P·T·杰纳瑞提德·尤尼法伊德·佛麦特"},{"i":85,"c":"四、模型家族与开源模型/服务","w":"GPTQ (Generative Pre-trained Transformer Quantization)","h":"G·P·T·Q","p":"/ˌdʒiː ˌpiː ˌtiː ˈkjuː/","m":"GPT 量化方法","n":"基于二阶信息的逐层 PTQ 量化，能在保证质量的同时大幅压缩模型。","pf":"/ˈdʒenərətɪv priː ˈtreɪnd trænsˈfɔːrmər ˌkwɒntaɪˈzeɪʃn/","hf":"杰纳瑞提夫·普瑞·吹恩德·传斯佛默·匡泰泽申"},{"i":86,"c":"四、模型家族与开源模型/服务","w":"AWQ (Activation-aware Weight Quantization)","h":"诶达不溜Q","p":"/ˌeɪ ˌdʌbəljuː ˈkjuː/","m":"激活感知量化","n":"通过分析激活值重要性、保护关键权重的量化算法，量化后质量好、硬件友好。","pf":"/ˌæktɪˈveɪʃn əˈweər weɪt ˌkwɒntaɪˈzeɪʃn/","hf":"阿提维申·阿外尔·维特·匡泰泽申"},{"i":87,"c":"五、RAG 检索增强与向量数据库","w":"RAG (Retrieval-Augmented Generation)","h":"瑞格","p":"/ræɡ/","m":"检索增强生成","n":"回答前先从外部知识库检索相关资料拼进 Prompt，让 LLM 基于\"事实\"回答。解决幻觉、知识过时、私有数据三大痛点，是目前 AI 应用落地最主流的技术。","pf":"/rɪˈtriːvl ɔːɡˈmentɪd ˌdʒenəˈreɪʃn/","hf":"瑞吹沃·奥格门提德·杰内瑞申"},{"i":88,"c":"五、RAG 检索增强与向量数据库","w":"Agentic-RAG (Agentic Retrieval-Augmented Generation)","h":"埃真提克·拉格","p":"/eɪˈdʒentɪk ræɡ/","m":"智能体式 RAG","n":"检索不是一次性固定流程，而是 Agent 自主决定\"何时检、检什么、查完再问\"的动态检索，更灵活。","pf":"/eɪˈdʒentɪk rɪˈtriːvl ɔːɡˈmentɪd ˌdʒenəˈreɪʃn/","hf":"埃真提克·瑞吹沃·奥格门提德·杰纳瑞申"},{"i":89,"c":"五、RAG 检索增强与向量数据库","w":"Graph-RAG (Graph Retrieval-Augmented Generation)","h":"格拉夫·拉格","p":"/ɡræf ræɡ/","m":"图增强 RAG","n":"把文档先构建成知识图谱再检索/推理，适合跨实体、多跳关系型问答。","pf":"/ɡræf rɪˈtriːvl ɔːɡˈmentɪd ˌdʒenəˈreɪʃn/","hf":"格拉夫·瑞吹沃·奥格门提德·杰纳瑞申"},{"i":90,"c":"五、RAG 检索增强与向量数据库","w":"Multi-hop Retrieval","h":"毛提·火普·瑞吹沃","p":"/ˈmʌlti hɒp rɪˈtriːvəl/","m":"多跳检索","n":"一个问题需要\"查 A → 得到线索 → 再查 B\"的多轮检索才能回答。"},{"i":91,"c":"五、RAG 检索增强与向量数据库","w":"Retrieval","h":"瑞吹沃","p":"/rɪˈtriːvəl/","m":"检索","n":"从知识库中找出与问题最相关的文档片段的过程，RAG 的\"搜\"环节。"},{"i":92,"c":"五、RAG 检索增强与向量数据库","w":"Query","h":"奎瑞","p":"/ˈkwɪəri/","m":"查询/检索请求","n":"RAG 中用户问题被向量化/关键词化后的检索输入。"},{"i":93,"c":"五、RAG 检索增强与向量数据库","w":"Chunk","h":"洽恩克","p":"/tʃʌŋk/","m":"文档分块","n":"把长文档按语义切成小段再向量化入库。**切块大小与重叠策略直接决定检索质量**，是 RAG 调优关键点。"},{"i":94,"c":"五、RAG 检索增强与向量数据库","w":"Chunking / Retrieved Chunks","h":"洽恩金 / 瑞吹夫德·洽恩克斯","p":"/ˈtʃʌŋkɪŋ / rɪˈtriːvd tʃʌŋks/","m":"分块 / 被召回的分块","n":"分块策略（chunk size / overlap）与检索返回的相关片段集合。"},{"i":95,"c":"五、RAG 检索增强与向量数据库","w":"Metadata","h":"麦塔得塔","p":"/ˈmɛtədeɪtə/","m":"元数据","n":"附着在向量/分块上的附加属性（来源、时间、租户、类型），用于检索时的条件过滤。"},{"i":96,"c":"五、RAG 检索增强与向量数据库","w":"Filtering","h":"菲尔特林","p":"/ˈfɪltərɪŋ/","m":"过滤","n":"检索时按 metadata（如租户、文档类型）先收窄范围再查向量，多租户隔离的刚需。"},{"i":97,"c":"五、RAG 检索增强与向量数据库","w":"Embedding","h":"恩贝丁","p":"/ɪmˈbɛdɪŋ/","m":"词嵌入/文本向量化","n":"把文本映射成高维向量，让\"语义相近的文本向量距离近\"。向量化是整个向量检索的地基。"},{"i":98,"c":"五、RAG 检索增强与向量数据库","w":"Text Embedding","h":"泰克斯特·恩贝丁","p":"/tɛkst ɪmˈbɛdɪŋ/","m":"文本嵌入","n":"专用于生成文本向量的模型输出，如 OpenAI 的 text-embedding-3、bge、m3e。"},{"i":99,"c":"五、RAG 检索增强与向量数据库","w":"Vector Database","h":"维克特·得塔贝斯","p":"/ˈvɛktər ˈdeɪtəbeɪs/","m":"向量数据库","n":"专门存储、检索向量的数据库（Milvus / Qdrant / pgvector 等），核心是 ANN 近似最近邻检索。"},{"i":100,"c":"五、RAG 检索增强与向量数据库","w":"HNSW (Hierarchical Navigable Small World)","h":"艾尺恩艾斯达不溜","p":"/ˌeɪtʃ ˌɛn ˌɛs ˈdʌbəljuː/","m":"分层可导航小世界图","n":"主流向量索引算法：构建多层\"小世界图\"，检索时从顶层粗查到底层细查，速度快、召回高。缺点：构建耗时、占内存，且全量重建费资源（常是大向量库查询变慢的原因）。","pf":"/ˌhaɪəˈrɑːkɪkl ˈnævɪɡəbl smɔːl wɜːld/","hf":"海厄拉基扣·纳维格波·斯莫·沃尔德"},{"i":101,"c":"五、RAG 检索增强与向量数据库","w":"IVF (Inverted File)","h":"爱维艾弗","p":"/ˌaɪ ˌviː ˈɛf/","m":"倒排文件索引","n":"先用聚类把向量分桶，检索时只查最近的几个桶，用\"分区\"换速度的 ANN 方案。","pf":"/ɪnˈvɜːtɪd faɪl/","hf":"因沃提德·法伊尔"},{"i":102,"c":"五、RAG 检索增强与向量数据库","w":"kNN (k-Nearest Neighbors)","h":"凯恩恩","p":"/ˌkeɪ ˌɛn ˈɛn/","m":"k 近邻搜索","n":"找与查询向量最近的 k 个向量（暴力版 vs 近似版 ANN 的区分概念）。","pf":"/keɪ ˈnɪərɪst ˈneɪbəz/","hf":"凯·尼瑞斯特·内伯斯"},{"i":103,"c":"五、RAG 检索增强与向量数据库","w":"FAISS (Facebook AI Similarity Search)","h":"费斯","p":"/feɪs/","m":"Facebook 向量检索库","n":"成熟的 ANN 算法库（非服务），适合嵌入进自研检索流程，需自行封装服务。","pf":"/ˈfeɪsbʊk ˌeɪ ˈaɪ ˌsɪməˈlærəti sɜːrtʃ/","hf":"费斯布克·A·I·西米拉瑞提·瑟奇"},{"i":104,"c":"五、RAG 检索增强与向量数据库","w":"Milvus","h":"米尔沃斯","p":"/ˈmɪlvəs/","m":"分布式向量数据库","n":"面向大规模、分布式部署的向量库，功能全但组件较重、运维成本高。"},{"i":105,"c":"五、RAG 检索增强与向量数据库","w":"Qdrant","h":"库德朗特","p":"/ˈkjuːdrənt/","m":"向量数据库","n":"开源、部署轻、payload 过滤强（多租户过滤友好），文件资料中生产选型主角。"},{"i":106,"c":"五、RAG 检索增强与向量数据库","w":"pgvector","h":"屁吉维克特","p":"/ˌpiː ˈdʒiː ˈvɛktər/","m":"PostgreSQL 向量扩展","n":"让 PostgreSQL 直接存/查向量，和业务数据一体、简单场景首选，量大了性能受限。"},{"i":107,"c":"五、RAG 检索增强与向量数据库","w":"Weaviate","h":"维维亚特","p":"/ˈwiːvieɪt/","m":"向量数据库","n":"自带 GraphQL 查询与模块化集成，社区活跃的又一选择。"},{"i":108,"c":"五、RAG 检索增强与向量数据库","w":"Chroma","h":"克罗玛","p":"/ˈkroʊmə/","m":"轻量向量数据库","n":"主打极简、嵌入式，常用于本地原型与学习场景。"},{"i":109,"c":"五、RAG 检索增强与向量数据库","w":"ES / Elasticsearch","h":"伊艾斯 / 伊拉丝提克·瑟奇","p":"/ˌiː ˈɛs / ɪˈlæstɪk sɜːrtʃ/","m":"搜索引擎","n":"基于倒排索引的全文搜索引擎，可做关键词检索，也可加向量插件做混合检索。"},{"i":110,"c":"五、RAG 检索增强与向量数据库","w":"BM25 (Best Matching 25)","h":"B·M·二十五","p":"/ˌbiː ˌem ˈtwenti faɪv/","m":"最佳匹配 25 算法","n":"经典稀疏（关键词）检索打分算法，基于词频与逆文档频率。与向量检索互补组成\"混合检索\"，补足向量对精确关键词/专有名词的短板。","pf":"/best ˈmætʃɪŋ ˈtwenti faɪv/","hf":"贝斯特·麦钦·二十五"},{"i":111,"c":"五、RAG 检索增强与向量数据库","w":"SPLADE (SParse Lexical AnD Expansion)","h":"斯普雷德","p":"/spleɪd/","m":"稀疏词嵌入模型","n":"学出来的稀疏表示，同时兼顾\"词匹配\"的精准与\"语义\"的泛化，是混合检索的进阶方案。","pf":"/spɑːrs ˈleksɪkl ænd ɪkˈspænʃn/","hf":"斯帕斯·莱克西扣·安德·伊克斯潘申"},{"i":112,"c":"五、RAG 检索增强与向量数据库","w":"SimHash","h":"西姆哈什","p":"/ˈsɪm hæʃ/","m":"相似哈希","n":"把文本映射成指纹做大规模近似去重/相似检测的技术。"},{"i":113,"c":"五、RAG 检索增强与向量数据库","w":"Rerank","h":"瑞软克","p":"/ˌriːˈræŋk/","m":"重排序","n":"对粗召回结果用更强的模型（如 Cross-encoder）重新打分排序，把最相关的排到最前，是提升回答准确率的关键一环。"},{"i":114,"c":"五、RAG 检索增强与向量数据库","w":"Cross-encoder","h":"克罗斯·恩扣德","p":"/krɒs ɪnˈkoʊdər/","m":"交叉编码器","n":"把\"问题+文档\"拼一起过模型打相关分，更准但慢，用于精排。"},{"i":115,"c":"五、RAG 检索增强与向量数据库","w":"Dual-encoder","h":"丢尔·恩扣德","p":"/ˈdjuːəl ɪnˈkoʊdər/","m":"双塔编码器","n":"Query 和 Doc 各自编码成向量，检索快（可离线建索引），用于粗召回。"},{"i":116,"c":"五、RAG 检索增强与向量数据库","w":"Top-K 检索","h":"托普K·瑞吹沃","p":"/tɒp keɪ/","m":"返回前 K 条","n":"检索返回条数控制，K 值影响\"覆盖率 vs 噪声\"的平衡。"},{"i":117,"c":"五、RAG 检索增强与向量数据库","w":"Recall","h":"瑞扣","p":"/rɪˈkɔːl/","m":"召回率","n":"检索/评测指标：正确内容有多少被找回来了。"},{"i":118,"c":"五、RAG 检索增强与向量数据库","w":"MRR (Mean Reciprocal Rank)","h":"艾姆阿阿","p":"/ˌɛm ˌɑːr ˈɑːr/","m":"平均倒数排名","n":"评测指标：第一个正确答案排名的倒数均值，衡量\"最相关结果是否排在最前\"。","pf":"/miːn rɪˈsɪprəkl ræŋk/","hf":"敏·瑞西普若扣·软克"},{"i":119,"c":"五、RAG 检索增强与向量数据库","w":"nDCG (normalized Discounted Cumulative Gain)","h":"N·D·C·G","p":"/ˌen ˌdiː ˌsiː ˈdʒiː/","m":"归一化折损累计增益","n":"评测指标：考虑排序位置加权（越靠前越重要）的相关性累计分数。","pf":"/ˈnɔːrməlaɪzd dɪsˈkaʊntɪd ˈkjuːmjələtɪv ɡeɪn/","hf":"诺默莱兹德·迪斯康提德·丘缪勒提夫·盖恩"},{"i":120,"c":"五、RAG 检索增强与向量数据库","w":"RAGAS (Retrieval Augmented Generation Assessment)","h":"拉格斯","p":"/ˈrɑːɡəs/","m":"RAG 评估框架","n":"开源评估 RAG 系统质量的框架，衡量忠实度、答案相关性、上下文相关性等。","pf":"/rɪˈtriːvl ɔːɡˈmentɪd ˌdʒenəˈreɪʃn əˈsesmənt/","hf":"瑞吹沃·奥格门提德·杰纳瑞申·阿塞斯门特"},{"i":121,"c":"五、RAG 检索增强与向量数据库","w":"Evaluation / Eval","h":"伊瓦留埃申 / 伊瓦尔","p":"/ɪˌvæljuˈeɪʃən / ɪˈvæl/","m":"评测","n":"用标注集+指标（准确率/召回/满意度）系统评估模型或 RAG 链路效果，AI 迭代的\"度量衡\"。"},{"i":122,"c":"五、RAG 检索增强与向量数据库","w":"LLM-as-a-Judge (Large Language Model as a Judge)","h":"L·L·M·埃兹·阿·加吉","p":"/ˌel ˌel ˈem æz ə dʒʌdʒ/","m":"LLM 当裁判","n":"用另一个强模型给生成结果打分/判胜负，替代/辅助人工评测，成本低、可规模化。","pf":"/lɑːrdʒ ˈlæŋɡwɪdʒ ˈmɒdl æz ə dʒʌdʒ/","hf":"拉吉·兰格维吉·莫德尔·埃兹·阿·加吉"},{"i":123,"c":"五、RAG 检索增强与向量数据库","w":"badcase","h":"拜德凯斯","p":"/ˈbædkeɪs/","m":"反面案例","n":"模型回答错误或不满意的实际案例，定期回流到评测集，驱动\"数据闭环\"迭代。"},{"i":124,"c":"五、RAG 检索增强与向量数据库","w":"POC (Proof of Concept)","h":"屁欧西","p":"/ˌpiː ˌoʊ ˈsiː/","m":"概念验证","n":"用真实业务用例小范围验证某个方案/框架是否可行、有效（如用 20 个真实用例跑框架对比）。","pf":"/pruːf əv ˈkɒnsept/","hf":"普如夫·奥夫·康瑟普特"},{"i":125,"c":"六、Agent 智能体与编排框架","w":"Agent","h":"诶郡特","p":"/ˈeɪdʒənt/","m":"智能体","n":"以 LLM 为大脑、能在\"感知→决策→行动\"循环中自主完成多步任务的程序：想好了调工具、拿到结果再继续。AI 应用的进阶形态。"},{"i":126,"c":"六、Agent 智能体与编排框架","w":"Agentic","h":"诶郡提克","p":"/ˌeɪˈdʒɛntɪk/","m":"智能体式","n":"形容词，指\"具备自主决策与行动能力\"的 AI 形态（如 Agentic-Workflow、Agentic-RAG）。"},{"i":127,"c":"六、Agent 智能体与编排框架","w":"Workflow","h":"沃克弗洛","p":"/ˈwɜːrkfloʊ/","m":"工作流","n":"把任务拆成固定步骤的流水线编排。Agent 是动态决策，Workflow 是预定路线。"},{"i":128,"c":"六、Agent 智能体与编排框架","w":"Sub-Agent","h":"萨布·诶郡特","p":"/ˈsʌb ˌeɪdʒənt/","m":"子智能体","n":"被主 Agent 调度、专职处理某类子任务的 Agent，实现分工协作。"},{"i":129,"c":"六、Agent 智能体与编排框架","w":"Supervisor","h":"苏泊维泽","p":"/ˈsuːpərvaɪzər/","m":"主管智能体","n":"多 Agent 模式中的\"管理者\"，负责把任务分发给下属 Expert Agent 并汇总结果（LangGraph 的 Supervisor 模式）。"},{"i":130,"c":"六、Agent 智能体与编排框架","w":"Agent-to-Agent (A2A)","h":"诶郡特·吐·诶郡特","p":"/ˈeɪdʒənt tə ˈeɪdʒənt/","m":"智能体互连协议","n":"Google 提出的开放协议，让不同厂商的 Agent 之间能够互相发现、通信、协作。","pf":"/ˌeɪ tə ˈeɪ/","hf":"诶吐诶"},{"i":131,"c":"六、Agent 智能体与编排框架","w":"MCP (Model Context Protocol)","h":"艾姆西屁","p":"/ˌɛm ˌsiː ˈpiː/","m":"模型上下文协议","n":"Anthropic 提出的开放标准，统一了\"LLM 应用如何连接外部工具/数据源\"（工具、资源、提示）。常被类比为\"AI 领域的 USB-C 接口\"，一次接入处处复用。","pf":"/ˈmɒdl ˈkɒntekst ˈprəʊtəkɒl/","hf":"莫德尔·康泰克斯特·普若特扣"},{"i":132,"c":"六、Agent 智能体与编排框架","w":"Tool / Tool-Calling","h":"图尔 / 图尔·扣林","p":"/tuːl / tuːl ˈkɔːlɪŋ/","m":"工具 / 工具调用","n":"LLM 以结构化 JSON 输出参数、调用外部函数（查库、查订单、发通知）的能力，让模型\"不止会说话，还会办事\"。"},{"i":133,"c":"六、Agent 智能体与编排框架","w":"Function Calling","h":"放克申·扣林","p":"/ˈfʌŋkʃən ˈkɔːlɪŋ/","m":"函数调用","n":"与 Tool-Calling 同义，指模型根据函数定义输出 JSON 参数去调用指定函数，是 Agent 落地的底座能力。"},{"i":134,"c":"六、Agent 智能体与编排框架","w":"Tool-as-a-Service","h":"图尔·艾兹·呃·瑟维斯","p":"/tuːl æz ə ˈsɜːrvɪs/","m":"工具即服务","n":"把工具注册成统一管理、鉴权、限流的服务，通过\"工具网关\"对外提供，保证 Agent 调用的安全边界。"},{"i":135,"c":"六、Agent 智能体与编排框架","w":"Reason","h":"瑞怎","p":"/ˈriːzən/","m":"推理步骤","n":"ReAct 循环中的\"想清楚要做什么\"环节（对应 Thought/Action/Observation）。"},{"i":136,"c":"六、Agent 智能体与编排框架","w":"Thought / Action / Observation","h":"索特 / 阿克申 / 奥布泽维申","p":"/θɔːt / ˈækʃən / ˌɒbzərˈveɪʃən/","m":"思考 / 行动 / 观察","n":"ReAct 的三大环节：想→做→看结果，循环直到完成任务。"},{"i":137,"c":"六、Agent 智能体与编排框架","w":"Plan-and-Execute","h":"普兰·安德·艾克西Q特","p":"/plæn ənd ˈɛksɪkjuːt/","m":"规划-执行范式","n":"先让 LLM 制定完整计划（Plan），再逐步执行（Execute），最后统一反思，适合复杂长任务。"},{"i":138,"c":"六、Agent 智能体与编排框架","w":"Orchestrator-Workers","h":"奥克斯吹特·沃克斯","p":"/ˈɔːrkɪstreɪtər ˈwɜːrkərz/","m":"编排者-执行者模式","n":"一个 Orchestrator 分配任务给多个 Worker 并行/分步执行并汇总结果的 Agent 架构。"},{"i":139,"c":"六、Agent 智能体与编排框架","w":"Evaluator-Optimizer","h":"伊瓦留埃特·奥普提麦泽","p":"/ɪˈvæljueɪtər ˈɒptɪmaɪzər/","m":"评估-优化循环","n":"一个 Agent 产出、另一个 Agent 评审并反馈改进意见的循环工作流，提升输出质量。"},{"i":140,"c":"六、Agent 智能体与编排框架","w":"Parallelization","h":"帕拉莱莱泽申","p":"/ˌpærələlaɪˈzeɪʃən/","m":"并行化","n":"把无依赖的子任务并行拆给多个 Agent/分支同时处理，缩短整体耗时。"},{"i":141,"c":"六、Agent 智能体与编排框架","w":"LangChain","h":"兰切恩","p":"/læŋ tʃeɪn/","m":"大模型应用开发框架","n":"LLM 应用的老牌框架，提供链(Chain)、工具、记忆等抽象，方便快速搭 RAG 流程。"},{"i":142,"c":"六、Agent 智能体与编排框架","w":"LangGraph","h":"兰格拉夫","p":"/læŋ ɡræf/","m":"图编排框架","n":"LangChain 官方的**有状态图编排**框架：节点=逻辑步骤、边=流转，支持状态持久化、人工中断/恢复、复杂分支控制流。比线性 Chain 更适合做 Agent。"},{"i":143,"c":"六、Agent 智能体与编排框架","w":"StateGraph","h":"斯泰特·格拉夫","p":"/steɪt ɡræf/","m":"状态图","n":"LangGraph 的核心概念，定义节点、边、状态（State）来构建可执行的 Agent 图。"},{"i":144,"c":"六、Agent 智能体与编排框架","w":"Checkpointer","h":"切克波因特","p":"/ˈtʃɛkpɔɪntər/","m":"检查点机制","n":"LangGraph 的持久化组件，保存图执行到某一步的完整状态，支持断点恢复、多轮会话记忆。"},{"i":145,"c":"六、Agent 智能体与编排框架","w":"LCEL (LangChain Expression Language)","h":"艾勒西伊艾勒","p":"/ˌɛl ˌsiː ˌiː ˈɛl/","m":"LangChain 表达式语言","n":"LangChain 的声明式管道语法，用 `","pf":"/læŋ tʃeɪn ɪkˈspreʃn ˈlæŋɡwɪdʒ/","hf":"兰切恩·艾克斯普瑞申·兰格维吉"},{"i":146,"c":"六、Agent 智能体与编排框架","w":"CrewAI","h":"克鲁诶爱","p":"/kruː ˌeɪ ˈaɪ/","m":"多 Agent 框架","n":"以\"角色扮演团队\"（Role/Goal/Backstory）组织的多 Agent 编排框架，概念直观。"},{"i":147,"c":"六、Agent 智能体与编排框架","w":"AutoGen","h":"奥托真","p":"/ˈɔːtoʊ dʒɛn/","m":"多 Agent 框架","n":"微软开源的 Agent 开发框架，支持多 Agent 对话协作与代码执行。"},{"i":148,"c":"六、Agent 智能体与编排框架","w":"Langfuse","h":"兰弗尤斯","p":"/læŋ fjuːz/","m":"LLM 可观测平台","n":"记录 LLM 调用的 trace、token 成本、反馈的观测/追踪平台，线上排障重要工具。"},{"i":149,"c":"六、Agent 智能体与编排框架","w":"Harness","h":"哈尼斯","p":"/ˈhɑːrnəs/","m":"编排容器/套件","n":"泛指承载 Agent 运行、工具、上下文的\"装配底座\"（如开放式 AI 的 OpenAOHarness）。"},{"i":150,"c":"六、Agent 智能体与编排框架","w":"Lighthouse","h":"莱特豪斯","p":"/ˈlaɪthaʊs/","m":"体验分级（此处指评测分级）","n":"资料中用于对面试知识点按熟悉/了解/低频分级，辅助规划学习重点。"},{"i":151,"c":"七、模型推理、量化与部署","w":"Inference","h":"因弗伦斯","p":"/ˈɪnfərəns/","m":"推理","n":"模型\"跑起来干活\"的过程（预测/生成），相对训练更强调延迟与吞吐优化。"},{"i":152,"c":"七、模型推理、量化与部署","w":"Serving","h":"瑟文","p":"/ˈsɜːrvɪŋ/","m":"模型服务化","n":"把模型封装成可高并发调用的线上服务（HTTP/gRPC），含批处理、负载均衡、监控等。"},{"i":153,"c":"七、模型推理、量化与部署","w":"PagedAttention","h":"培吉德·阿腾申","p":"/peɪdʒd əˈtɛnʃən/","m":"分页注意力","n":"vLLM 提出的显存管理技术：把 KV Cache 切成\"页\"按需动态分配，类似操作系统虚拟内存，减少显存碎片与浪费，支撑高吞吐。"},{"i":154,"c":"七、模型推理、量化与部署","w":"Prefill","h":"普瑞菲儿","p":"/ˈpriːfɪl/","m":"预填充阶段","n":"生成第一个 token 前，一次性并行计算整个 Prompt 的阶段（计算密集）。"},{"i":155,"c":"七、模型推理、量化与部署","w":"Chunked Prefill","h":"洽恩克特·普瑞菲儿","p":"/tʃʌŋkt ˈpriːfɪl/","m":"分块预填充","n":"把长 Prompt 的预填充拆成小块、与解码交叠调度，避免\"长请求阻塞短请求\"。"},{"i":156,"c":"七、模型推理、量化与部署","w":"Decode","h":"迪扣德","p":"/ˌdiːˈkoʊd/","m":"解码阶段","n":"逐 token 生成输出的阶段（访存密集），与 Prefill 构成生成的两个阶段。"},{"i":157,"c":"七、模型推理、量化与部署","w":"Prefix Caching","h":"普瑞菲克斯·卡庆","p":"/ˈpriːfɪks ˈkæʃɪŋ/","m":"前缀缓存","n":"多个请求共享相同前缀（系统提示词/历史）时复用其 KV Cache，省算力省延迟省钱。"},{"i":158,"c":"七、模型推理、量化与部署","w":"TTFT (Time To First Token)","h":"提提艾弗提","p":"/ˌtiː ˌtiː ˌɛf ˈtiː/","m":"首 Token 延迟","n":"从请求发出到收到第一个 token 的耗时，衡量对话\"响应快不快\"的关键指标（流式体验）。","pf":"/taɪm tə fɜːst ˈtəʊkən/","hf":"泰姆·吐·佛斯特·托肯"},{"i":159,"c":"七、模型推理、量化与部署","w":"Continuous Batching","h":"康提纽斯·白庆","p":"/kənˈtɪnjuəs ˈbætʃɪŋ/","m":"连续批处理","n":"见\"训练、微调与对齐\"章：迭代级动态批处理，vLLM/SGLang 提吞吐的核心手段。"},{"i":160,"c":"七、模型推理、量化与部署","w":"FP16 (Floating Point 16)","h":"F·P·十六","p":"/ˌef ˌpiː ˈsɪkstiːn/","m":"半精度浮点","n":"权重/计算的常见精度（16 位），相比 FP32 省一半显存、推理更快，精度损失可接受。","pf":"/ˈfloʊtɪŋ pɔɪnt ˈsɪkstiːn/","hf":"弗洛廷·泼因特·十六"},{"i":161,"c":"七、模型推理、量化与部署","w":"INT8 / INT4","h":"因特八 / 因特四","p":"/ˌaɪ ˌɛn ˈtiː eɪt / ˌaɪ ˌɛn ˈtiː fɔːr/","m":"8bit / 4bit 整数量化","n":"把权重/激活压到低比特整数，进一步省显存、加快推理，配合 GPTQ/AWQ 等算法控制质量损失。"},{"i":162,"c":"七、模型推理、量化与部署","w":"Q4 / Q4_K_M / Q5_K_M / Q8","h":"Q四 / Q四K艾姆 / Q五K艾姆 / Q八","p":"/kjuː fɔːr / kjuː fɔːr ˌkeɪ ˈɛm / kjuː faɪv ˌkeɪ ˈɛm / kjuː eɪt/","m":"GGUF 量化等级","n":"llama.cpp/GGUF 的量化配置（K_M 表示按层/张量混合精度），Q4 最省、Q8 质量最好。"},{"i":163,"c":"七、模型推理、量化与部署","w":"Offloading","h":"奥弗洛丁","p":"/ˌɒfˈloʊdɪŋ/","m":"层卸载","n":"把部分层/权重卸载到 CPU 或内存，牺牲速度换显存，让超大模型跑在小显存显卡。"},{"i":164,"c":"七、模型推理、量化与部署","w":"Scaling","h":"斯凯林","p":"/ˈskeɪlɪŋ/","m":"规模扩展","n":"增大模型参数量/数据量/算力以获得能力提升的路线（Scaling Law：数据、参数、算力按比例放大收益递减）。"},{"i":165,"c":"七、模型推理、量化与部署","w":"Locust","h":"洛卡斯特","p":"/ˈloʊkəst/","m":"压测工具","n":"开源分布式负载测试工具，用 Python 定义 User 行为，常用于接口压测摸瓶颈（QPS、p95）。"},{"i":166,"c":"七、模型推理、量化与部署","w":"OOM (Out Of Memory)","h":"欧欧艾姆","p":"/ˌoʊ ˌoʊ ˈɛm/","m":"内存/显存溢出","n":"程序申请内存超限崩溃，推理服务最常见的故障之一（KV Cache 过大、批次过大都会触发）。","pf":"/aʊt əv ˈmeməri/","hf":"奥特·奥夫·麦莫瑞"},{"i":167,"c":"七、模型推理、量化与部署","w":"GB / MB / KB","h":"吉碧 / 艾姆碧 / 开碧","p":"/ˌdʒiː ˈbiː / ˌɛm ˈbiː / ˌkeɪ ˈbiː/","m":"存储容量单位","n":"千兆/兆/千字节，衡量模型体积、显存、日志大小的单位（1GB=1024MB）。"},{"i":168,"c":"七、模型推理、量化与部署","w":"Byte","h":"拜特","p":"/baɪt/","m":"字节","n":"计算机存储最小可寻址单位（8 bit），量化里\"Byte 编码\"也指按字节建模的分词思路。"},{"i":169,"c":"八、多模态与 AI 应用能力","w":"OCR (Optical Character Recognition)","h":"欧西阿","p":"/ˌoʊ ˌsiː ˈɑːr/","m":"光学字符识别","n":"把图片/扫描件中的文字识别成可编辑文本。处理复杂 PDF（表格、多栏）时先 OCR 还原版面再入库，是文档知识库的\"读字\"环节。","pf":"/ˈɒptɪkl ˈkærəktər ˌrekəɡˈnɪʃn/","hf":"奥普提扣·卡瑞克特·瑞扣格尼申"},{"i":170,"c":"八、多模态与 AI 应用能力","w":"PaddleOCR","h":"派豆·欧西阿","p":"/ˈpædəl ˌoʊ ˌsiː ˈɑːr/","m":"百度开源 OCR 工具","n":"国内最常用的开源 OCR 方案，中文识别效果好、支持版面分析/表格识别，可本地部署。"},{"i":171,"c":"八、多模态与 AI 应用能力","w":"PyMuPDF","h":"派缪屁迪艾弗","p":"/ˌpaɪ mjuː ˌpiː ˌdiː ˈɛf/","m":"Python PDF 处理库","n":"用于提取 PDF 文本、解析版面、渲染页面，配合 OCR 做复杂 PDF 的结构化解析。"},{"i":172,"c":"八、多模态与 AI 应用能力","w":"ASR (Automatic Speech Recognition)","h":"诶艾斯阿","p":"/ˌeɪ ˌɛs ˈɑːr/","m":"自动语音识别","n":"把语音转成文字（语音转写），AI 客服/语音助手的前置环节。","pf":"/ˌɔːtəˈmætɪk spiːtʃ ˌrekəɡˈnɪʃn/","hf":"奥托麦提克·斯皮奇·瑞扣格尼申"},{"i":173,"c":"八、多模态与 AI 应用能力","w":"TTS (Text To Speech)","h":"提提艾斯","p":"/ˌtiː ˌtiː ˈɛs/","m":"语音合成","n":"把文字转成语音播放，AI 对话的\"开口说话\"环节。","pf":"/tekst tə spiːtʃ/","hf":"泰克斯特·吐·斯皮奇"},{"i":174,"c":"八、多模态与 AI 应用能力","w":"VAD (Voice Activity Detection)","h":"维诶迪","p":"/ˌviː ˌeɪ ˈdiː/","m":"语音活动检测","n":"检测哪个时间段有人在说话（区分静音/噪声），是实时语音系统的预处理模块。","pf":"/vɔɪs ækˈtɪvəti dɪˈtekʃn/","hf":"沃伊斯·艾克提维提·迪泰克申"},{"i":175,"c":"八、多模态与 AI 应用能力","w":"Audio / pcm / webm","h":"奥迪欧 / 匹西艾姆 / 韦布艾姆","p":"/ˈɔːdioʊ / ˌpiː ˌsiː ˈɛm / wɛbm/","m":"音频格式类","n":"pcm 原始 PCM 音频、webm 浏览器常用音视频容器格式；VAD/ASR/TTS 链路中常见。"},{"i":176,"c":"八、多模态与 AI 应用能力","w":"NL2SQL / Text2SQL","h":"恩艾勒吐艾斯Q艾勒 / 泰克斯特吐艾斯Q艾勒","p":"/ˌɛn ˌɛl tuː ˌɛs ˌkjuː ˈɛl / tɛkst tuː ˌɛs ˌkjuː ˈɛl/","m":"自然语言转 SQL","n":"让模型把\"人话问题\"转换成 SQL 查询，实现\"用大白话查数据库\"，是 BI/运营助手的典型能力。"},{"i":177,"c":"八、多模态与 AI 应用能力","w":"NL (Natural Language)","h":"恩艾勒","p":"/ˌɛn ˈɛl/","m":"自然语言","n":"人类的日常语言（相对编程语言/结构化数据）。","pf":"/ˈnætʃrəl ˈlæŋɡwɪdʒ/","hf":"奈彻罗·兰格维吉"},{"i":178,"c":"八、多模态与 AI 应用能力","w":"NER (Named Entity Recognition)","h":"恩伊阿","p":"/ˌɛn ˌiː ˈɑːr/","m":"命名实体识别","n":"从文本中抽取人名、地名、机构名、订单号等实体及其类型，常用于日志/工单/文档的信息结构化抽取。","pf":"/neɪmd ˈentəti ˌrekəɡˈnɪʃn/","hf":"内姆德·恩提提·瑞扣格尼申"},{"i":179,"c":"八、多模态与 AI 应用能力","w":"BI (Business Intelligence)","h":"碧艾","p":"/ˌbiː ˈaɪ/","m":"商业智能","n":"面向经营决策的数据分析与报表能力（AI 助手生成多维报表属于 BI 类应用）。","pf":"/ˈbɪznəs ɪnˈtelɪdʒəns/","hf":"碧兹尼斯·因泰利真斯"},{"i":180,"c":"八、多模态与 AI 应用能力","w":"KG (Knowledge Graph)","h":"凯吉","p":"/ˌkeɪ ˈdʒiː/","m":"知识图谱","n":"以\"实体-关系-实体\"三元组组织的图数据，Graph-RAG 的底层结构。","pf":"/ˈnɒlɪdʒ ɡræf/","hf":"诺利吉·格拉夫"},{"i":181,"c":"八、多模态与 AI 应用能力","w":"Graph","h":"格拉夫","p":"/ɡræf/","m":"图","n":"由节点和边组成的数据结构。Graph-RAG/图数据库/邻接检索都基于图的建模。"},{"i":182,"c":"八、多模态与 AI 应用能力","w":"IM (Instant Messaging)","h":"艾艾姆","p":"/ˌaɪ ˈɛm/","m":"即时通讯","n":"实时聊天通信（企业 IM / 群消息），常作为 Agent 的触达渠道。","pf":"/ˈɪnstənt ˈmesɪdʒɪŋ/","hf":"因斯坦特·麦西金"},{"i":183,"c":"九、后端服务、网络协议与运行时","w":"API (Application Programming Interface)","h":"A·P·I","p":"/ˌeɪ ˌpiː ˈaɪ/","m":"应用程序接口","n":"服务对外暴露的调用入口，AI 应用里大模型、检索、工具都以 API 形式对接。","pf":"/ˌæplɪˈkeɪʃn ˈproʊɡræmɪŋ ˈɪntərfeɪs/","hf":"阿普利凯申·普罗格拉明·因特菲斯"},{"i":184,"c":"九、后端服务、网络协议与运行时","w":"SDK (Software Development Kit)","h":"S·D·K","p":"/ˌes ˌdiː ˈkeɪ/","m":"软件开发工具包","n":"官方封装的编程调用库，让开发者\"几行代码\"接入某个服务/能力。","pf":"/ˈsɔːftwer dɪˈveləpmənt kɪt/","hf":"索夫特维尔·迪维勒普门特·基特"},{"i":185,"c":"九、后端服务、网络协议与运行时","w":"HTTP (HyperText Transfer Protocol)","h":"H·T·T·P","p":"/ˌeɪtʃ ˌtiː ˌtiː ˈpiː/","m":"超文本传输协议","n":"Web 的基础请求-响应协议（GET/POST/状态码/请求头），一切 Web 服务的地基。","pf":"/ˈhaɪpərtekst ˈtrænsfɜːr ˈproʊtəkɒl/","hf":"海珀泰克斯特·传斯佛·普罗特扣"},{"i":186,"c":"九、后端服务、网络协议与运行时","w":"HTTPS (HyperText Transfer Protocol Secure)","h":"H·T·T·P·S","p":"/ˌeɪtʃ ˌtiː ˌtiː ˌpiː ˈes/","m":"安全 HTTP","n":"在 HTTP 上叠加 TLS 加密，防窃听防篡改，生产环境必用。","pf":"/ˈhaɪpərtekst ˈtrænsfɜːr ˈproʊtəkɒl sɪˈkjʊr/","hf":"海珀泰克斯特·传斯佛·普罗特扣·西丘尔"},{"i":187,"c":"九、后端服务、网络协议与运行时","w":"TLS (Transport Layer Security)","h":"T·L·S","p":"/ˌtiː ˌel ˈes/","m":"传输层安全协议","n":"负责传输加密与身份认证，HTTPS 的安全底座。","pf":"/ˈtrænspɔːrt ˈleɪər sɪˈkjʊrəti/","hf":"传斯波特·雷尔·西丘瑞提"},{"i":188,"c":"九、后端服务、网络协议与运行时","w":"TCP (Transmission Control Protocol)","h":"T·C·P","p":"/ˌtiː ˌsiː ˈpiː/","m":"传输控制协议","n":"可靠、有连接的传输层协议（三次握手、四次挥手）。SSE/WebSocket 底层都建立在 TCP 之上。","pf":"/trænzˈmɪʃn kənˈtroʊl ˈproʊtəkɒl/","hf":"传斯米申·肯特罗·普罗特扣"},{"i":189,"c":"九、后端服务、网络协议与运行时","w":"RTT (Round-Trip Time)","h":"阿提提","p":"/ˌɑːr ˌtiː ˈtiː/","m":"网络往返时延","n":"数据从发送到收到响应的一次往返耗时，是延迟的真实来源。","pf":"/raʊnd trɪp taɪm/","hf":"让德·吹普·泰姆"},{"i":190,"c":"九、后端服务、网络协议与运行时","w":"SYN / FIN / ACK","h":"辛 / 芬 / 艾克","p":"/sɪn / fɪn / æk/","m":"TCP 握手/挥手标志","n":"TCP 建立连接（SYN/SYN-ACK/ACK）与断开（FIN）的报文标志位，网络排查基础。"},{"i":191,"c":"九、后端服务、网络协议与运行时","w":"TIME_WAIT","h":"泰姆·维特","p":"/taɪm weɪt/","m":"TCP 关闭等待态","n":"主动关闭方在断开后停留的状态，防旧报文串扰，高并发下会看到很多 TIME_WAIT。"},{"i":192,"c":"九、后端服务、网络协议与运行时","w":"IP (Internet Protocol)","h":"艾屁","p":"/ˌaɪ ˈpiː/","m":"网际协议/地址","n":"网络层寻址协议或其地址，也是\"知识产权(Intellectual Property)\"缩写，语境区分。","pf":"/ˈɪntənet ˈprəʊtəkɒl/","hf":"因特奈特·普若特扣"},{"i":193,"c":"九、后端服务、网络协议与运行时","w":"DNS (Domain Name System)","h":"迪恩艾斯","p":"/ˌdiː ˌɛn ˈɛs/","m":"域名系统","n":"把域名解析成 IP 地址的\"电话簿\"，访问慢/被劫持时排查对象。","pf":"/dəˈmeɪn neɪm ˈsɪstəm/","hf":"迪梅恩·内姆·西斯特姆"},{"i":194,"c":"九、后端服务、网络协议与运行时","w":"CDN (Content Delivery Network)","h":"西迪恩","p":"/ˌsiː ˌdiː ˈɛn/","m":"内容分发网络","n":"把静态资源缓存到离用户更近的边缘节点，加速下载与访问。","pf":"/ˈkɒntent dɪˈlɪvəri ˈnetwɜːk/","hf":"康腾特·迪利沃瑞·奈特沃克"},{"i":195,"c":"九、后端服务、网络协议与运行时","w":"RPC (Remote Procedure Call)","h":"阿屁西","p":"/ˌɑːr ˌpiː ˈsiː/","m":"远程过程调用","n":"让\"调用远端函数像调用本地函数\"的通信方式（如 gRPC/Thrift），微服务内部常用。","pf":"/rɪˈməʊt prəˈsiːdʒər kɔːl/","hf":"瑞莫特·普若西杰·扣"},{"i":196,"c":"九、后端服务、网络协议与运行时","w":"WebSocket / WS","h":"韦布索凯特 / 达不溜艾斯","p":"/ˈwɛb sɒkɪt / ˌdʌbəljuː ˈɛs/","m":"全双工长连接协议","n":"浏览器与服务端保持长连接、双向实时推送的协议（HTTP 升级而来），AI 对话、实时协作常用。"},{"i":197,"c":"九、后端服务、网络协议与运行时","w":"SSE (Server-Sent Events)","h":"艾斯艾斯伊","p":"/ˌɛs ˌɛs ˈiː/","m":"服务器推送事件","n":"基于 HTTP 的服务端单向流式推送（`text/event-stream`）。大模型\"打字机\"式流式输出就用它，实现简单、断线自动重连（配合 Last-Event-ID 续传）。","pf":"/ˈsɜːvər sent ɪˈvents/","hf":"瑟沃·森特·伊文茨"},{"i":198,"c":"九、后端服务、网络协议与运行时","w":"EventSource","h":"伊文特索斯","p":"/ɪˈvɛnt sɔːrs/","m":"SSE 前端对象","n":"浏览器端接收 SSE 的 API（`new EventSource(url)`），自动重连、监听 message/error 事件。"},{"i":199,"c":"九、后端服务、网络协议与运行时","w":"Last-Event-ID","h":"拉斯特·伊文特·艾迪","p":"/læst ɪˈvɛnt ˌaɪ ˈdiː/","m":"事件续传 ID","n":"SSE 重连时携带的最后事件 ID，服务端据此从断点续推，实现流式断点续传。"},{"i":200,"c":"九、后端服务、网络协议与运行时","w":"Streaming / Stream","h":"斯吹明 / 斯吹姆","p":"/ˈstriːmɪŋ / striːm/","m":"流式传输","n":"边生成边输出，不用等全部完成。大模型回答、文件下载、日志推送都靠流式。"},{"i":201,"c":"九、后端服务、网络协议与运行时","w":"ReadableStream","h":"瑞德波·斯吹姆","p":"/ˈriːdəbəl striːm/","m":"可读流","n":"Web 标准流接口，前端解析 `response.body` 逐块读取流式数据（配 TextDecoder 解码 SSE/JSON）。"},{"i":202,"c":"九、后端服务、网络协议与运行时","w":"TextDecoder","h":"泰克斯特·迪扣德","p":"/tɛkst dɪˈkoʊdər/","m":"文本解码器","n":"把二进制字节流解码成字符串的 Web API，流式管道中常用。"},{"i":203,"c":"九、后端服务、网络协议与运行时","w":"JSON (JavaScript Object Notation)","h":"杰森","p":"/ˈdʒeɪsən/","m":"轻量数据交换格式","n":"`{\"key\":value}` 结构，前后端、LLM 结构化输出的通用\"语言\"。","pf":"/ˈdʒɑːvəskrɪpt ˈɒbdʒekt noʊˈteɪʃn/","hf":"爪瓦斯克瑞普特·奥布吉克特·诺泰申"},{"i":204,"c":"九、后端服务、网络协议与运行时","w":"JSON.stringify / JSON.parse","h":"杰森·斯特林吉法伊 / 杰森·帕斯","p":"/ˈdʒeɪsən ˈstrɪŋɪfaɪ / ˈdʒeɪsən pɑːrz/","m":"序列化 / 反序列化","n":"对象 ↔ JSON 字符串互转，传输与存储的必备操作。"},{"i":205,"c":"九、后端服务、网络协议与运行时","w":"JSONB (JSON Binary)","h":"杰森·B","p":"/ˈdʒeɪsən ˌbiː/","m":"PostgreSQL 二进制 JSON 类型","n":"存入已解析的二进制格式，查询/索引 JSON 字段性能更好。","pf":"/ˈdʒeɪsən ˈbaɪnəri/","hf":"杰森·拜纳瑞"},{"i":206,"c":"九、后端服务、网络协议与运行时","w":"FastAPI","h":"法斯特·诶屁艾","p":"/fæst ˌeɪ ˌpiː ˈaɪ/","m":"Python 异步 Web 框架","n":"AI 服务最主流的后端框架之一：原生 async 支持、自动 OpenAPI 文档、Pydantic 校验，和 LLM 流式输出配合极佳。"},{"i":207,"c":"九、后端服务、网络协议与运行时","w":"StreamingResponse","h":"斯吹明·瑞斯旁斯","p":"/ˈstriːmɪŋ rɪˈspɒns/","m":"FastAPI 流式响应","n":"FastAPI 提供流式返回的响应类，是服务端实现 SSE/流式输出的载体。"},{"i":208,"c":"九、后端服务、网络协议与运行时","w":"uvicorn","h":"尤维康","p":"/ˈjuːvɪkɔːrn/","m":"ASGI 服务器","n":"FastAPI 的推荐运行服务器（异步 ASGI），配合 Gunicorn 做进程管理。"},{"i":209,"c":"九、后端服务、网络协议与运行时","w":"gunicorn","h":"古尼康","p":"/ˈɡʌnɪkɔːrn/","m":"Python WSGI 服务器","n":"经典 Python Web 服务器（同步 WSGI），常与 uvicorn worker 组合用于生产。"},{"i":210,"c":"九、后端服务、网络协议与运行时","w":"asyncio","h":"诶辛克艾欧","p":"/əˈsɪnkioʊ/","m":"Python 异步 IO 库","n":"让单个线程以事件循环调度多个协程（`asyncio.gather` 并发），高 IO 场景的核心。"},{"i":211,"c":"九、后端服务、网络协议与运行时","w":"asyncio.gather","h":"诶辛克艾欧·盖泽","p":"/əˈsɪnkioʊ ˈɡæðər/","m":"异步并发聚合","n":"并发放多个协程并等待全部完成，常用于并发调用模型/检索。"},{"i":212,"c":"九、后端服务、网络协议与运行时","w":"httpx","h":"艾尺提提屁艾克斯","p":"/ˌeɪtʃ ˌtiː ˌtiː ˌpiː ˈɛks/","m":"Python HTTP 客户端","n":"支持同步/异步的现代 HTTP 客户端，AI 服务请求外部/流式接口常用。"},{"i":213,"c":"九、后端服务、网络协议与运行时","w":"Celery","h":"赛乐瑞","p":"/ˈsɛləri/","m":"分布式任务队列","n":"Python 的异步任务队列（配合 Redis/RabbitMQ），把文档入库、批量检索等耗时任务丢后台异步执行。"},{"i":214,"c":"九、后端服务、网络协议与运行时","w":"pydantic","h":"派丹提克","p":"/ˌpaɪ ˈdæntɪk/","m":"Python 数据校验库","n":"基于类型注解做数据模型校验/序列化，FastAPI 的核心依赖，也用于校验 LLM 的 JSON 工具参数（防幻觉参数）。"},{"i":215,"c":"九、后端服务、网络协议与运行时","w":"R58: Request ID / Trace ID","h":"瑞奎斯特·艾迪 / 吹斯·艾迪","p":"/ˌɑːr ˈfɪfti eɪt rɪˈkwɛst ˌaɪ ˈdiː / treɪs ˌaɪ ˈdiː/","m":"请求 / 链路追踪 ID","n":"每请求一个唯一 ID，贯穿日志与调用链，线上\"按 ID 一查到底\"排障。"},{"i":216,"c":"九、后端服务、网络协议与运行时","w":"Conversation ID / thread ID","h":"康沃赛申·艾迪 / 斯瑞德·艾迪","p":"/ˌkɒnvərˈseɪʃən ˌaɪ ˈdiː / θrɛd ˌaɪ ˈdiː/","m":"会话 ID","n":"一次多轮对话的唯一标识，驱动会话级状态与记忆。"},{"i":217,"c":"九、后端服务、网络协议与运行时","w":"tenant_id","h":"泰南特·艾迪","p":"/ˈtɛnənt ˌaɪ ˈdiː/","m":"租户 ID","n":"多租户 SaaS 中标识\"哪个客户\"的字段，数据隔离与权限的核心。"},{"i":218,"c":"九、后端服务、网络协议与运行时","w":"idempotency","h":"艾登波滕西","p":"/ˌaɪdɛmˈpoʊtənsi/","m":"幂等性","n":"同一操作执行多次结果一致（不重复扣费/不重复入库），消息与支付场景必备。"},{"i":219,"c":"九、后端服务、网络协议与运行时","w":"Outbox","h":"奥特波克斯","p":"/ˈaʊtbɒks/","m":"发件箱模式","n":"事务内写业务+写\"待发事件\"表，再由后台可靠投递，解决\"本地事务与消息一致\"的经典方案。"},{"i":220,"c":"九、后端服务、网络协议与运行时","w":"Failover","h":"菲尔欧沃","p":"/ˈfeɪloʊvər/","m":"故障转移/主备切换","n":"主节点挂了自动切到备用节点，保证可用性（如主备模型自动切换）。"},{"i":221,"c":"九、后端服务、网络协议与运行时","w":"Retry","h":"瑞吹","p":"/ˌriːˈtraɪ/","m":"重试","n":"请求失败后自动/手动重发（加退避、限次数），系统工程里的\"基础自救\"。"},{"i":222,"c":"九、后端服务、网络协议与运行时","w":"Timeout / Cancel","h":"泰姆奥特 / 坎瑟","p":"/ˈtaɪmaʊt / ˈkænsəl/","m":"超时 / 取消","n":"请求超时熔断、取消下发（AbortController 中断）。流式/长任务尤其要管好超时与取消。"},{"i":223,"c":"九、后端服务、网络协议与运行时","w":"AbortController","h":"阿伯特·康吹勒","p":"/əˈbɔːrt kənˈtroʊlər/","m":"请求中断控制器","n":"标准 Web API，可主动取消 fetch/流式请求（`.abort()` / `controller.signal`），前端取消流式输出就靠它。"},{"i":224,"c":"九、后端服务、网络协议与运行时","w":"Rate Limit / Quota","h":"瑞特利米特 / 阔塔","p":"/reɪt ˈlɪmɪt / ˈkwoʊtə/","m":"限流 / 配额","n":"控制单位时间调用量与额度，多供应商限流时按优先级排队、降级（见\"配额管理\"）。"},{"i":225,"c":"九、后端服务、网络协议与运行时","w":"Circuit Breaker","h":"瑟克特·布雷克","p":"/ˈsɜːrkɪt ˈbreɪkər/","m":"熔断器","n":"上游持续失败时快速\"熔断\"停止调用、走降级，避免雪崩。"},{"i":226,"c":"九、后端服务、网络协议与运行时","w":"Fallback","h":"佛尔拜克","p":"/ˈfɔːlbæk/","m":"兜底/降级方案","n":"主方案失败时的替代方案（切备用模型、缓存答案、简化回答、拒答引导）。"},{"i":227,"c":"九、后端服务、网络协议与运行时","w":"SLA (Service Level Agreement)","h":"艾斯艾勒诶","p":"/ˌɛs ˌɛl ˈeɪ/","m":"服务等级协议","n":"对可用性/延迟的承诺（如 99.9% 可用性），SRE 的重要考核目标。","pf":"/ˈsɜːvɪs ˈlevl əˈɡriːmənt/","hf":"瑟维斯·莱沃·阿格瑞门特"},{"i":228,"c":"十、数据库与中间件","w":"DB (Database)","h":"D·B","p":"/ˌdiː ˈbiː/","m":"数据库","n":"数据存储系统，AI 应用里模型结果、费用流水、业务数据都落库。","pf":"/ˈdeɪtəbeɪs/","hf":"得塔贝斯"},{"i":229,"c":"十、数据库与中间件","w":"SQL (Structured Query Language)","h":"S·Q·L","p":"/ˌes ˌkjuː ˈel/","m":"结构化查询语言","n":"操作关系数据库的标准语言，面试里 JOIN/索引/事务都是高频。","pf":"/ˈstrʌktʃərd ˈkwɪəri ˈlæŋɡwɪdʒ/","hf":"斯特拉克车德·奎尔瑞·兰格维吉"},{"i":230,"c":"十、数据库与中间件","w":"DML / DDL","h":"迪艾姆艾勒 / 迪迪艾勒","p":"/ˌdiː ˌɛm ˈɛl / ˌdiː ˌdiː ˈɛl/","m":"数据操纵 / 定义语言","n":"DML 管增删改查（SELECT/INSERT/UPDATE/DELETE），DDL 管表结构（CREATE/ALTER）。"},{"i":231,"c":"十、数据库与中间件","w":"SELECT / INSERT / UPDATE / DELETE","h":"瑟莱克特 / 因瑟特 / 阿普戴特 / 迪利特","p":"/sɪˈlɛkt / ɪnˈsɜːrt / ʌpˈdeɪt / dɪˈliːt/","m":"SQL 增删改查语句","n":"四种核心数据操作语句，业务 CRUD 的基础。"},{"i":232,"c":"十、数据库与中间件","w":"JOIN","h":"乔因","p":"/dʒɔɪn/","m":"表连接","n":"按关联字段把多张表拼起来查询（INNER/LEFT 等），是\"数据在多个表里\"时的必经操作。"},{"i":233,"c":"十、数据库与中间件","w":"EXPLAIN","h":"艾克斯普莱因","p":"/ɪkˈspleɪn/","m":"执行计划分析","n":"MySQL 里看 SQL 是否走索引、有没有全表扫描的行之有效的调优命令。"},{"i":234,"c":"十、数据库与中间件","w":"Index","h":"因德克斯","p":"/ˈɪndɛks/","m":"索引","n":"加速查询的数据结构（B+Tree），用空间换时间；建不好全表扫描慢到爆。"},{"i":235,"c":"十、数据库与中间件","w":"B+Tree","h":"碧加·吹","p":"/ˌbiː plʌs triː/","m":"B+ 树索引","n":"数据库/文件系统最常用的索引数据结构：多叉平衡树、叶子存数据且串联，范围查询高效。"},{"i":236,"c":"十、数据库与中间件","w":"Hash","h":"哈什","p":"/hæʃ/","m":"哈希","n":"把任意数据映射成定长摘要/桶号，用于等值查询、分库分表、一致性哈希等。"},{"i":237,"c":"十、数据库与中间件","w":"MVCC (Multi-Version Concurrency Control)","h":"艾姆维西西","p":"/ˌɛm ˌviː ˌsiː ˈsiː/","m":"多版本并发控制","n":"通过保留数据多个版本，让\"读不阻塞写、写不阻塞读\"，是 InnoDB 隔离级别的实现基础。","pf":"/ˈmʌlti ˈvɜːʃn kənˈkʌrənsi kənˈtrəʊl/","hf":"毛提·沃申·康卡伦西·康吹尔"},{"i":238,"c":"十、数据库与中间件","w":"ACID (Atomicity Consistency Isolation Durability)","h":"阿西德","p":"/ˈæsɪd/","m":"事务四大特性","n":"原子性(Atomicity)/一致性(Consistency)/隔离性(Isolation)/持久性(Durability)，事务可靠性的标准。","pf":"/ˌætəˈmɪsəti kənˈsɪstənsi ˌaɪsəˈleɪʃn ˌdjʊərəˈbɪləti/","hf":"阿特米西提·肯西斯腾西·爱索雷申·丢拉比勒提"},{"i":239,"c":"十、数据库与中间件","w":"RR (Repeatable Read)","h":"阿阿","p":"/ˌɑːr ˈɑːr/","m":"可重复读","n":"MySQL InnoDB 默认隔离级别：同一事务多次读结果一致（靠 MVCC 快照）。","pf":"/rɪˈpiːtəbl riːd/","hf":"瑞皮特波·瑞德"},{"i":240,"c":"十、数据库与中间件","w":"Next-Key Lock","h":"耐克斯特Key·洛克","p":"/nɛkst kiː lɒk/","m":"临键锁","n":"MySQL 在 RR 下为避免幻读加的\"记录锁+间隙锁\"组合。"},{"i":241,"c":"十、数据库与中间件","w":"Binlog","h":"宾洛格","p":"/ˈbɪnlɒɡ/","m":"二进制日志","n":"MySQL 记录所有变更的日志，用于主从复制、数据恢复。"},{"i":242,"c":"十、数据库与中间件","w":"Redo / Undo","h":"瑞杜 / 安杜","p":"/ˌriːˈduː / ʌnˈduː/","m":"重做 / 撤销日志","n":"Redo 保证崩溃恢复后已提交事务不丢；Undo 支持回滚与 MVCC 快照。"},{"i":243,"c":"十、数据库与中间件","w":"filesort","h":"法伊尔索特","p":"/ˈfaɪlsɔːrt/","m":"文件排序","n":"MySQL 无法利用索引排序时，用内存/临时文件额外排序（应优化成走索引）。"},{"i":244,"c":"十、数据库与中间件","w":"ROW_NUMBER / DENSE_RANK / RANK","h":"柔南伯 / 登斯软克 / 软克","p":"/roʊ ˈnʌmbər / dɛns ræŋk / ræŋk/","m":"窗口函数","n":"SQL 排名/编号函数：ROW_NUMBER 连续编号、DENSE_RANK 密集排名、RANK 跳号排名。"},{"i":245,"c":"十、数据库与中间件","w":"PARTITION","h":"帕提申","p":"/pɑːrˈtɪʃən/","m":"分区","n":"把大表按键拆成分区/分片，提升查询与维护性能。"},{"i":246,"c":"十、数据库与中间件","w":"TRUNCATE","h":"传凯特","p":"/ˈtrʌŋkeɪt/","m":"清空表","n":"快速清空整表（不能回滚、事务不友好），与 DELETE 语义不同。"},{"i":247,"c":"十、数据库与中间件","w":"Redis","h":"瑞迪斯","p":"/ˈrɛdɪs/","m":"内存数据库/缓存","n":"高性能 KV 内存数据库，缓存、限流、分布式锁、队列都是它。"},{"i":248,"c":"十、数据库与中间件","w":"ZSet (Sorted Set)","h":"再德赛特","p":"/zɛt sɛt/","m":"有序集合","n":"Redis 自带\"分数排序\"的数据结构，排行榜、分数排序场景直接可用。","pf":"/ˈsɔːtɪd set/","hf":"索提德·赛特"},{"i":249,"c":"十、数据库与中间件","w":"SETNX (SET if Not eXists)","h":"塞特·N·X","p":"/set ˌen ˈeks/","m":"设置如果不存在","n":"Redis 分布式锁的经典原语（`SET key value NX EX ttl`），配合 Redlock 做高可用锁。","pf":"/set ɪf nɒt ɪɡˈzɪsts/","hf":"塞特·伊夫·诺特·伊格济斯茨"},{"i":250,"c":"十、数据库与中间件","w":"TTL (Time To Live)","h":"提提艾勒","p":"/ˌtiː ˌtiː ˈɛl/","m":"过期时间","n":"键的存活时间，Redis 缓存、消息、会话的\"自动失效\"机制。","pf":"/taɪm tə lɪv/","hf":"泰姆·吐·利夫"},{"i":251,"c":"十、数据库与中间件","w":"Lock","h":"洛克","p":"/lɒk/","m":"锁","n":"并发控制互斥手段（分布式锁 Redlock/Redisson 是跨进程版的锁）。"},{"i":252,"c":"十、数据库与中间件","w":"Redlock","h":"瑞德洛克","p":"/ˈrɛdlɒk/","m":"红锁算法","n":"Redis 官方分布式锁算法：对多个独立节点加锁过半才算成功，防单点。"},{"i":253,"c":"十、数据库与中间件","w":"Redisson","h":"瑞迪森","p":"/ˈrɛdɪsən/","m":"Redis 客户端库","n":"Java 常用的 Redis 客户端，内置分布式锁、限流、队列等高级对象。"},{"i":254,"c":"十、数据库与中间件","w":"Semaphore","h":"赛马福","p":"/ˈsɛməfɔːr/","m":"信号量","n":"控制同时访问某资源的并发数上限的同步原语（限流底层概念）。"},{"i":255,"c":"十、数据库与中间件","w":"MQ (Message Queue)","h":"艾姆Q","p":"/ˌɛm ˈkjuː/","m":"消息队列","n":"解耦、削峰、异步化的中间件（RabbitMQ/Kafka），AI 文档入库、任务异步化常用。","pf":"/ˈmesɪdʒ kjuː/","hf":"麦西吉·Q"},{"i":256,"c":"十、数据库与中间件","w":"RabbitMQ","h":"拉比特·艾姆Q","p":"/ˈræbɪt ˌɛm ˈkjuː/","m":"消息队列中间件","n":"功能完善的开源 MQ；要保证消息不丢：生产者 confirm、Broker 持久化、消费者手动 ack 三件套。"},{"i":257,"c":"十、数据库与中间件","w":"Broker","h":"布若克","p":"/ˈbroʊkər/","m":"消息代理","n":"MQ 中负责接收、存储、转发消息的服务端角色。"},{"i":258,"c":"十、数据库与中间件","w":"Consumer","h":"康苏默","p":"/kənˈsjuːmər/","m":"消费者","n":"MQ 中消费队列消息的一方（处理任务的一方）。"},{"i":259,"c":"十、数据库与中间件","w":"ACK (Acknowledgement)","h":"阿克","p":"/æk/","m":"确认应答","n":"消息处理成功后给 MQ 回 ACK 才从队列移除；不 ack 会重试投递，保证 at-least-once。","pf":"/əkˈnɒlɪdʒmənt/","hf":"阿克诺利吉门特"},{"i":260,"c":"十、数据库与中间件","w":"Cache","h":"卡什","p":"/kæʃ/","m":"缓存","n":"把热点数据放更快的存储层以降低延迟。AI 里缓存答案/上下文/向量结果可大幅省钱。"},{"i":261,"c":"十、数据库与中间件","w":"Cache-Control","h":"卡什·康吹尔","p":"/kæʃ kənˈtroʊl/","m":"HTTP 缓存控制头","n":"控制浏览器/CDN 缓存策略的头（no-cache / no-store / max-age）。"},{"i":262,"c":"十、数据库与中间件","w":"ETag / Last-Modified","h":"伊泰格 / 拉斯特莫迪法伊德","p":"/ˈiː tæɡ / læst ˈmɒdɪfaɪd/","m":"缓存校验头","n":"ETag 是内容指纹、Last-Modified 是修改时间，配合 If-None-Match / If-Modified-Since 做协商缓存。"},{"i":263,"c":"十、数据库与中间件","w":"Expires / max-age","h":"艾克斯派尔斯 / 麦克斯诶吉","p":"/ɪkˈspaɪərz / mæks eɪdʒ/","m":"缓存有效期","n":"指定缓存过期时间的控制字段。"},{"i":264,"c":"十一、前端与 JavaScript / CSS","w":"HTML (HyperText Markup Language)","h":"H·T·M·L","p":"/ˌeɪtʃ ˌtiː ˌem ˈel/","m":"超文本标记语言","n":"网页结构（骨架）的标记语言。","pf":"/ˈhaɪpərtekst ˈmɑːrkʌp ˈlæŋɡwɪdʒ/","hf":"海珀泰克斯特·马克阿普·兰格维吉"},{"i":265,"c":"十一、前端与 JavaScript / CSS","w":"CSS / CSS3","h":"西艾斯艾斯 / 西艾斯艾斯三","p":"/ˌsiː ˌɛs ˈɛs / ˌsiː ˌɛs ˈɛs θriː/","m":"层叠样式表","n":"网页样式（外观）的语言，CSS3 是现代布局/动画能力集合。"},{"i":266,"c":"十一、前端与 JavaScript / CSS","w":"JS / JavaScript","h":"杰艾斯 / 爪哇斯克瑞普特","p":"/ˌdʒeɪ ˈɛs / ˈdʒɑːvəskrɪpt/","m":"动态脚本语言","n":"浏览器唯一\"原生编程语言\"，前端/小程序的逻辑核心。"},{"i":267,"c":"十一、前端与 JavaScript / CSS","w":"TS / TypeScript","h":"提艾斯 / 泰普斯克瑞普特","p":"/ˌtiː ˈɛs / ˈtaɪpskrɪpt/","m":"JavaScript 超集（带类型）","n":"给 JS 加静态类型检查，大型前端工程标配，能在编译期抓一堆低级 bug。"},{"i":268,"c":"十一、前端与 JavaScript / CSS","w":"ES6 / ES7","h":"伊艾斯六 / 伊艾斯赛文","p":"/ˌiː ˈɛs sɪks / ˌiː ˈɛs ˈsɛvən/","m":"ECMAScript 版本","n":"JS 语言标准版本号，ES6 引入了箭头函数、Promise、class、解构等现代语法。"},{"i":269,"c":"十一、前端与 JavaScript / CSS","w":"DOM (Document Object Model)","h":"多姆","p":"/dɒm/","m":"文档对象模型","n":"浏览器把 HTML 解析成的\"节点树\"，JS 操作页面就是操作 DOM。","pf":"/ˈdɒkjumənt ˈɒbdʒekt ˈmɒdl/","hf":"多丘门特·奥布吉克特·莫德尔"},{"i":270,"c":"十一、前端与 JavaScript / CSS","w":"CSSOM (CSS Object Model)","h":"C·S·S·O·M","p":"/ˌsiː ˌes ˌes oʊ ˈem/","m":"CSS 对象模型","n":"CSS 解析成的样式规则对象，与 DOM 一起构建渲染树。","pf":"/siː es es ˈɒbdʒekt ˈmɒdl/","hf":"C·S·S·奥布吉克特·莫德尔"},{"i":271,"c":"十一、前端与 JavaScript / CSS","w":"NodeList / HTMLCollection","h":"诺德利斯特 / 艾尺提艾姆艾勒扣莱克申","p":"/noʊd lɪst / ˌeɪtʃ ˌtiː ˌɛm ˈɛl kəˈlɛkʃən/","m":"DOM 集合类型","n":"查询 DOM 返回的元素集合（getElementsBy* 返回实时集合、querySelectorAll 返回静态 NodeList）。"},{"i":272,"c":"十一、前端与 JavaScript / CSS","w":"querySelectorAll / getElementsBy*","h":"奎瑞瑟莱克特奥 / 盖特埃勒门茨拜","p":"/ˈkwɪəri sɪˈlɛktər ɔːl / ɡɛt ɪˈlɛmənts baɪ/","m":"DOM 查询 API","n":"按选择器/标签/类名抓取元素的浏览器 API，是性能与实践中常考的类型差异。"},{"i":273,"c":"十一、前端与 JavaScript / CSS","w":"Event","h":"伊文特","p":"/ɪˈvɛnt/","m":"事件","n":"用户交互/页面触发的信号（点击、输入），`addEventListener` 监听。"},{"i":274,"c":"十一、前端与 JavaScript / CSS","w":"Event Loop","h":"伊文特·卢普","p":"/ɪˈvɛnt luːp/","m":"事件循环","n":"JS 是单线程，靠事件循环调度\"同步→微任务→宏任务\"的执行顺序，面试必考题。"},{"i":275,"c":"十一、前端与 JavaScript / CSS","w":"Macro task","h":"麦克罗·塔斯克","p":"/ˈmækroʊ tæsk/","m":"宏任务","n":"事件循环里较大粒度的任务：setTimeout、setInterval、I/O 等。"},{"i":276,"c":"十一、前端与 JavaScript / CSS","w":"Micro task","h":"麦依克罗·塔斯克","p":"/ˈmaɪkroʊ tæsk/","m":"微任务","n":"较高优先级的小任务：Promise.then、queueMicrotask，会在宏任务结束后立即清空。"},{"i":277,"c":"十一、前端与 JavaScript / CSS","w":"Promise","h":"普若米斯","p":"/ˈprɒmɪs/","m":"承诺对象","n":"处理异步的标准化对象，三态（pending/fulfilled/rejected），解决回调地狱。"},{"i":278,"c":"十一、前端与 JavaScript / CSS","w":"Promise.all","h":"普若米斯·奥","p":"/ˈprɒmɪs ɔːl/","m":"全部并发","n":"并发多个 Promise 且全部成功后进入 resolve，任何一个失败就整体失败。"},{"i":279,"c":"十一、前端与 JavaScript / CSS","w":"Promise.allSettled","h":"普若米斯·奥赛特尔德","p":"/ˈprɒmɪs ɔːl ˈsɛtəld/","m":"全部落定","n":"并发多个 Promise，无论成败都返回各自结果，适合\"单个失败不影响整体\"的批量任务。"},{"i":280,"c":"十一、前端与 JavaScript / CSS","w":"async / await","h":"诶辛克 / 诶维特","p":"/ˈeɪsɪŋk / əˈweɪt/","m":"异步语法糖","n":"让异步代码\"看起来像同步\"，`async` 函数返回 Promise、`await` 暂停等待，配 try/catch 处理错误。"},{"i":281,"c":"十一、前端与 JavaScript / CSS","w":"Async","h":"诶辛克","p":"/ˈeɪsɪŋk/","m":"异步","n":"不阻塞主线程的执行方式，网络请求、流式读取都是异步。"},{"i":282,"c":"十一、前端与 JavaScript / CSS","w":"Generator","h":"杰内瑞特","p":"/ˈdʒɛnəreɪtər/","m":"生成器函数","n":"`function*` 定义的能\"暂停/恢复\"执行的函数（yield），异步/迭代的高级工具。"},{"i":283,"c":"十一、前端与 JavaScript / CSS","w":"Iterator","h":"伊特瑞特","p":"/ɪtəˈreɪtər/","m":"迭代器","n":"提供 `next()` 逐个取元素的接口，Generator 产生的就是迭代器，for...of 依赖它。"},{"i":284,"c":"十一、前端与 JavaScript / CSS","w":"StructuredClone","h":"斯特拉克切德·克洛恩","p":"/ˈstrʌktʃərd kloʊn/","m":"深拷贝 API","n":"浏览器内置的结构化深拷贝函数，克隆对象/数组（比 JSON 拷贝更强，支持 Date/Map 等）。"},{"i":285,"c":"十一、前端与 JavaScript / CSS","w":"fetch","h":"费奇","p":"/fɛtʃ/","m":"网络请求 API","n":"现代浏览器发 HTTP 请求的标准 API，支持流式读取 `response.body`。"},{"i":286,"c":"十一、前端与 JavaScript / CSS","w":"blob","h":"布洛布","p":"/blɒb/","m":"二进制大对象","n":"二进制数据容器（文件下载、图片、流式内容的载体）。"},{"i":287,"c":"十一、前端与 JavaScript / CSS","w":"AbortController","h":"阿伯特·康吹勒","p":"/əˈbɔːrt kənˈtroʊlər/","m":"请求中止","n":"见后端章：前端取消请求/流的标准方式（controller.abort）。"},{"i":288,"c":"十一、前端与 JavaScript / CSS","w":"EventSource / WebSocket / SSE","h":"伊文特索斯 / 韦布索凯特 / 艾斯艾斯伊","p":"/ɪˈvɛnt sɔːrs / ˈwɛb sɒkɪt / ˌɛs ˌɛs ˈiː/","m":"实时通信三兄弟","n":"见后端章：SSE 单向流式、WebSocket 双向长连。"},{"i":289,"c":"十一、前端与 JavaScript / CSS","w":"Promise.resolve / reject","h":"普若米斯·瑞造夫 / 瑞杰克特","p":"/ˈprɒmɪs rɪˈzɒlv / rɪˈdʒɛkt/","m":"状态投递","n":"手动把 Promise 推入成功/失败态的方法。"},{"i":290,"c":"十一、前端与 JavaScript / CSS","w":"Vue / Vue2 / Vue3","h":"维尤 / 维尤图 / 维尤三","p":"/vjuː / vjuː tuː / vjuː θriː/","m":"渐进式前端框架","n":"国内最流行的响应式 UI 框架；Vue2 基于 Object.defineProperty 劫持，Vue3 基于 Proxy + Composition API，性能与 TS 更好。"},{"i":291,"c":"十一、前端与 JavaScript / CSS","w":"React","h":"瑞艾克特","p":"/riˈækt/","m":"前端组件框架","n":"组件化 + 单向数据流 + Virtual DOM 的前端框架，生态庞大。"},{"i":292,"c":"十一、前端与 JavaScript / CSS","w":"Virtual DOM","h":"维球·迪欧艾姆","p":"/ˈvɜːrtʃuəl dɒm/","m":"虚拟 DOM","n":"在内存中用 JS 对象模拟真实 DOM，状态变后计算差异（Diff）再最小化更新真实 DOM，提高渲染性能。"},{"i":293,"c":"十一、前端与 JavaScript / CSS","w":"Diff","h":"迪夫","p":"/dɪf/","m":"差异对比算法","n":"新旧虚拟 DOM 树对比算法，找出需要更新的最小改动集合（Vue/React 核心）。"},{"i":294,"c":"十一、前端与 JavaScript / CSS","w":"Fiber","h":"法伊伯","p":"/ˈfaɪbər/","m":"React 的协调引擎","n":"React 的增量渲染架构，把渲染拆成可中断的小任务单元，实现高优先级更新优先（卡顿优化）。"},{"i":295,"c":"十一、前端与 JavaScript / CSS","w":"Hook / Hooks","h":"胡克 / 胡克斯","p":"/hʊk / hʊks/","m":"钩子函数","n":"React 的函数组件\"钩\"入状态/副作用能力的机制（useState/useEffect 等）。"},{"i":296,"c":"十一、前端与 JavaScript / CSS","w":"useState / useEffect / useMemo / useCallback / useRef","h":"尤斯斯泰特 / 尤斯艾弗艾克特 / 尤斯麦莫 / 尤斯扣拜克 / 尤斯瑞艾弗","p":"/juːz steɪt / juːz ɪˈfɛkt / juːz ˈmɛmoʊ / juːz ˈkɔːlbæk / juːz rɛf/","m":"React 常用 Hooks","n":"分别管：状态 / 副作用 / 缓存计算结果 / 缓存函数引用 / 引用 DOM 或可变值。"},{"i":297,"c":"十一、前端与 JavaScript / CSS","w":"useSyncExternalStore","h":"尤斯辛克艾克斯透诺斯托","p":"/juːz sɪŋk ɪkˈstɜːrnəl stɔːr/","m":"外部数据源同步 Hook","n":"React 官方用于连接外部全局状态（store）的 Hook，避免撕裂问题。"},{"i":298,"c":"十一、前端与 JavaScript / CSS","w":"JSX (JavaScript XML)","h":"J·S·X","p":"/ˌdʒeɪ ˌes ˈeks/","m":"JS 的 XML 语法扩展","n":"React/Vue 中\"在 JS 里写类 HTML\"的语法，编译后变成 createElement 调用。","pf":"/ˈdʒɑːvəskrɪpt ˌeks ˌem ˈel/","hf":"爪瓦斯克瑞普特·X·M·L"},{"i":299,"c":"十一、前端与 JavaScript / CSS","w":"Prop / Props","h":"普若普 / 普若普斯","p":"/prɒp / prɒps/","m":"属性","n":"父组件向子组件传递的只读数据（React 的 props、Vue 的 props）。"},{"i":300,"c":"十一、前端与 JavaScript / CSS","w":"State / setState","h":"斯泰特 / 赛特斯泰特","p":"/steɪt / sɛt steɪt/","m":"状态 / 更新状态","n":"组件内部可变状态；React 中不能直接改 state，要用 setState 触发重渲染。"},{"i":301,"c":"十一、前端与 JavaScript / CSS","w":"Reactive / ref","h":"瑞艾克提夫 / 瑞艾弗","p":"/riˈæktɪv / rɛf/","m":"响应式","n":"Vue3 的响应式 API：reactive 代理对象、ref 包装基本值，数据变化自动驱动视图更新。"},{"i":302,"c":"十一、前端与 JavaScript / CSS","w":"nextTick","h":"耐克斯特提克","p":"/nɛkst tɪk/","m":"下一事件循环回调","n":"Vue/React 中数据变化后等 DOM 更新完再执行的回调（`await nextTick()`）。"},{"i":303,"c":"十一、前端与 JavaScript / CSS","w":"Slot","h":"斯洛特","p":"/slɒt/","m":"插槽","n":"Vue 组件内容分发机制，让父组件往子组件的\"坑位\"塞内容（React 用 children 对应）。"},{"i":304,"c":"十一、前端与 JavaScript / CSS","w":"provide / inject","h":"普若外德 / 因杰克特","p":"/prəˈvaɪd / ɪnˈdʒɛkt/","m":"依赖注入","n":"Vue 组件间跨层级传递数据的机制（祖先 provide，后代 inject）。"},{"i":305,"c":"十一、前端与 JavaScript / CSS","w":"Pinia","h":"皮尼亚","p":"/ˈpɪniə/","m":"Vue3 状态管理库","n":"Vue3 官方推荐的状态管理（比 Vuex 更简洁、TS 友好）。"},{"i":306,"c":"十一、前端与 JavaScript / CSS","w":"Vuex","h":"维尤艾克斯","p":"/vjuː ɛks/","m":"Vue2 状态管理库","n":"Vuex 的四大件：state（状态）/ getters（派生）/ mutations（改态）/ actions（异步）。"},{"i":307,"c":"十一、前端与 JavaScript / CSS","w":"Redux","h":"瑞达克斯","p":"/riˈdʌks/","m":"React 状态管理库","n":"单向数据流 + 纯 reducer 的状态容器，`dispatch` 动作 → reducer 生成新状态，可预测性好。"},{"i":308,"c":"十一、前端与 JavaScript / CSS","w":"Reducer / dispatch","h":"瑞丢瑟 / 迪斯派奇","p":"/rɪˈdjuːsər / dɪˈspætʃ/","m":"归并函数 / 派发","n":"Redux 流派术语：dispatch 发出动作，reducer 根据动作返回新状态树。"},{"i":309,"c":"十一、前端与 JavaScript / CSS","w":"Router / Vue Router","h":"鲁特 / 维尤鲁特","p":"/ˈruːtər / vjuː ˈruːtər/","m":"路由","n":"前端\"页面=URL\"的映射管理（router.push 跳转、route.query 读参、beforeEach 守卫）。"},{"i":310,"c":"十一、前端与 JavaScript / CSS","w":"Vite","h":"维特","p":"/vaɪt/","m":"前端构建工具","n":"基于 ESM + 原生提速的现代构建工具，开发启动快、体验好，社区主流。"},{"i":311,"c":"十一、前端与 JavaScript / CSS","w":"webpack","h":"韦布派克","p":"/ˈwɛbpæk/","m":"前端打包工具","n":"老牌模块打包器，配置复杂但生态成熟，仍是许多老项目主力。"},{"i":312,"c":"十一、前端与 JavaScript / CSS","w":"Monorepo","h":"莫诺瑞波","p":"/ˈmɒnoʊˌrɛpoʊ/","m":"单仓多包","n":"把多个项目/包放同一个仓库管理（pnpm workspace / turborepo），共享代码、统一依赖、原子提交。"},{"i":313,"c":"十一、前端与 JavaScript / CSS","w":"pnpm / npm","h":"屁恩屁艾姆 / 恩屁艾姆","p":"/ˌpiː ˌɛn ˌpiː ˈɛm / ˌɛn ˌpiː ˈɛm/","m":"包管理器","n":"安装管理 JS 依赖的工具，pnpm 用硬链接省磁盘、安装快。"},{"i":314,"c":"十一、前端与 JavaScript / CSS","w":"turborepo","h":"特波瑞波","p":"/ˈtɜːrboʊˌrɛpoʊ/","m":"Monorepo 构建工具","n":"多包仓库的增量构建/缓存工具，加速构建。"},{"i":315,"c":"十一、前端与 JavaScript / CSS","w":"Tree Shaking","h":"吹·谢金","p":"/triː ˈʃeɪkɪŋ/","m":"摇树优化","n":"构建时剔除未使用的代码（dead code），减小打包体积。"},{"i":316,"c":"十一、前端与 JavaScript / CSS","w":"CSS 布局：Flex / Grid","h":"弗莱克斯 / 格里德","p":"/flɛks / ɡrɪd/","m":"弹性 / 网格布局","n":"现代 CSS 两大布局系统：Flex 一维排列、Grid 二维网格，取代旧式 float 布局。"},{"i":317,"c":"十一、前端与 JavaScript / CSS","w":"REM / EM / vh / vw / px","h":"瑞姆 / 艾姆 / 维艾尺 / 维达不溜 / 屁艾克斯","p":"/rɛm / ˌiː ˈɛm / ˌviː ˈeɪtʃ / ˌviː ˈdʌbəljuː / ˌpiː ˈɛks/","m":"CSS 长度单位","n":"rem 相对根字号、em 相对父字号、vh/vw 相对视口，用于响应式适配。"},{"i":318,"c":"十一、前端与 JavaScript / CSS","w":"BFC (Block Formatting Context)","h":"碧艾弗西","p":"/ˌbiː ˌɛf ˈsiː/","m":"块级格式化上下文","n":"CSS 渲染隔离概念：创建 BFC 的元素内部布局不影响外部（清浮动、防 margin 折叠）。","pf":"/blɒk ˈfɔːmætɪŋ ˈkɒntekst/","hf":"布洛克·佛麦丁·康泰克斯特"},{"i":319,"c":"十一、前端与 JavaScript / CSS","w":"ARIA / Aria-live / Aria-busy","h":"阿瑞娅 / 阿瑞娅·莱夫 / 阿瑞娅·碧吉","p":"/ˈɑːriə / ˈɑːriə laɪv / ˈɑːriə ˈbɪzi/","m":"无障碍标记属性","n":"WAI-ARIA 规范，给 HTML 加无障碍语义（aria-live 动态区域播报、aria-busy 忙碌状态），配合 A11y 提升无障碍体验。"},{"i":320,"c":"十一、前端与 JavaScript / CSS","w":"A11y (Accessibility)","h":"诶莱文歪","p":"/ˌeɪ ˈlevn ˈwaɪ/","m":"无障碍","n":"\"Accessibility\"的缩写（a+11个字母+y），让产品对残障用户可用（读屏、键盘操作等）。","pf":"/əkˌsesəˈbɪləti/","hf":"艾克赛瑟碧勒提"},{"i":321,"c":"十一、前端与 JavaScript / CSS","w":"Lighthouse","h":"莱特豪斯","p":"/ˈlaɪthaʊs/","m":"前端性能审计工具","n":"Chrome 的性能/无障碍/SEO 打分工具，跑分定位瓶颈（LCP/CLS 等指标来源）。"},{"i":322,"c":"十一、前端与 JavaScript / CSS","w":"FCP / LCP / CLS / INP / TBT","h":"艾弗西屁 / 艾勒西屁 / 西艾勒艾斯 / 艾恩屁 / 提碧提","p":"/ˌɛf ˌsiː ˈpiː / ˌɛl ˌsiː ˈpiː / ˌsiː ˌɛl ˈɛs / ˌaɪ ˌɛn ˈpiː / ˌtiː ˌbiː ˈtiː/","m":"前端性能核心指标","n":"FCP 首屏内容绘制、LCP 最大内容绘制、CLS 布局偏移、INP 交互延迟、TBT 阻塞时间——性能优化的度量标准。"},{"i":323,"c":"十一、前端与 JavaScript / CSS","w":"rAF / requestAnimationFrame","h":"阿诶艾弗 / 瑞奎斯特阿尼麦申弗瑞姆","p":"/ˌɑːr ˌeɪ ˈɛf / rɪˈkwɛst ˌænɪˈmeɪʃən freɪm/","m":"逐帧回调","n":"浏览器每帧刷新前的回调，动画/滚动的正确实现方式（节能且同步刷新率）。"},{"i":324,"c":"十一、前端与 JavaScript / CSS","w":"requestIdleCallback","h":"瑞奎斯特·艾逗·扣拜克","p":"/rɪˈkwɛst ˈaɪdəl ˈkɔːlbæk/","m":"空闲回调","n":"浏览器空闲时执行低优先级任务（延迟加载、统计上报）。"},{"i":325,"c":"十一、前端与 JavaScript / CSS","w":"rAF (requestAnimationFrame)","h":"R·A·F","p":"/ˌɑːr ˌeɪ ˈef/","m":"见 requestAnimationFrame","n":"动画性能优化关键词。","pf":"/rɪˈkwest ˌænɪˈmeɪʃn freɪm/","hf":"瑞奎斯特·阿尼梅申·弗雷姆"},{"i":326,"c":"十一、前端与 JavaScript / CSS","w":"H5 (HTML5)","h":"H·五","p":"/ˌeɪtʃ ˈfaɪv/","m":"HTML5 的统称","n":"移动端网页（H5 页面），常与小程序、原生 App 并列。","pf":"/ˌeɪtʃ ˌtiː ˌem ˌel ˈfaɪv/","hf":"H·T·M·L·五"},{"i":327,"c":"十一、前端与 JavaScript / CSS","w":"WebView","h":"韦布维尤","p":"/wɛb vjuː/","m":"内嵌浏览器视图","n":"App 内部嵌的网页容器，H5 与原生通信靠桥接。"},{"i":328,"c":"十一、前端与 JavaScript / CSS","w":"JSBridge (JavaScript Bridge)","h":"J·S·布里吉","p":"/ˌdʒeɪ ˌes brɪdʒ/","m":"JS 与原生桥接","n":"H5 和原生 App 互调的桥梁：约定注入方法 + postMessage，是混合开发核心。","pf":"/ˈdʒɑːvəskrɪpt brɪdʒ/","hf":"爪瓦斯克瑞普特·布里吉"},{"i":329,"c":"十一、前端与 JavaScript / CSS","w":"postMessage","h":"波斯特·麦西吉","p":"/poʊst ˈmɛsɪdʒ/","m":"跨域/跨窗口消息","n":"不同窗口/WebView 间安全传消息的标准 API，也是 JSBridge 底层。"},{"i":330,"c":"十一、前端与 JavaScript / CSS","w":"Electron","h":"伊莱克创","p":"/ɪˈlɛktrɒn/","m":"桌面应用框架","n":"用 HTML/CSS/JS 写跨平台桌面应用（Chromium + Node），主进程+渲染进程，IPC 通信。"},{"i":331,"c":"十一、前端与 JavaScript / CSS","w":"IPC (Inter-Process Communication)","h":"艾屁西","p":"/ˌaɪ ˌpiː ˈsiː/","m":"进程间通信","n":"Electron 主进程与渲染进程通信的机制，也泛指操作系统进程间通信。","pf":"/ˌɪntə ˈprəʊses kəˌmjuːnɪˈkeɪʃn/","hf":"因特·普若赛斯·扣缪尼凯申"},{"i":332,"c":"十一、前端与 JavaScript / CSS","w":"uni-app / mp-weixin","h":"尤尼艾普 / 艾姆屁微信","p":"/ˈjuːni æp / ˌɛm ˈpiː ˈweɪʃɪn/","m":"跨端框架 / 小程序","n":"uni-app 一套代码发布多端（H5/小程序/App）；mp-weixin 专指微信小程序构建。"},{"i":333,"c":"十一、前端与 JavaScript / CSS","w":"PatchFlag","h":"派奇·弗莱格","p":"/pætʃ flæɡ/","m":"更新标记","n":"Vue3 编译期给动态节点打的优化标记，配合细粒度 Diff 提升更新性能。"},{"i":334,"c":"十一、前端与 JavaScript / CSS","w":"localStorage / sessionStorage","h":"洛考斯托瑞吉 / 赛申斯托瑞吉","p":"/ˈloʊkəl ˈstɔːrɪdʒ / ˈsɛʃən ˈstɔːrɪdʒ/","m":"本地存储","n":"浏览器键值存储：localStorage 持久、sessionStorage 会话级，容量约 5MB。"},{"i":335,"c":"十一、前端与 JavaScript / CSS","w":"IndexedDB (Indexed Database)","h":"因德克斯特·D·B","p":"/ˈɪndekst ˌdiː ˈbiː/","m":"浏览器数据库","n":"浏览器内的 NoSQL 数据库，容量大、支持索引事务，适合离线/大数据量缓存。","pf":"/ˈɪndekst ˈdeɪtəbeɪs/","hf":"因德克斯特·得塔贝斯"},{"i":336,"c":"十一、前端与 JavaScript / CSS","w":"Cookie","h":"库奇","p":"/ˈkʊki/","m":"小饼干/会话凭证","n":"浏览器自动携带的键值数据，常存登录态，有跨域与大小限制（配合 JWT）。"},{"i":337,"c":"十一、前端与 JavaScript / CSS","w":"SessionStorage","h":"赛申·斯托瑞吉","p":"/ˈsɛʃən ˈstɔːrɪdʒ/","m":"会话存储","n":"见 localStorage。"},{"i":338,"c":"十一、前端与 JavaScript / CSS","w":"Canvas / blob / webm","h":"坎沃斯 / 布洛布 / 韦布艾姆","p":"/ˈkænvəs / blɒb / wɛbm/","m":"媒体相关","n":"Canvas 绘图、blob 二进制、webm 视频容器，前端录制/导出媒体常用（MediaRecorder）。"},{"i":339,"c":"十一、前端与 JavaScript / CSS","w":"MediaRecorder","h":"米迪亚·瑞扣德","p":"/ˈmiːdiə rɪˈkɔːrdər/","m":"媒体录制 API","n":"浏览器录制音视频的 API，录音/录屏功能的基础。"},{"i":340,"c":"十一、前端与 JavaScript / CSS","w":"Symbol / BigInt","h":"辛伯 / 碧格因特","p":"/ˈsɪmbəl / ˌbɪɡ ˈɪnt/","m":"ES6 新增类型","n":"Symbol 生成唯一标识、BigInt 表示任意大整数（解决精度问题）。"},{"i":341,"c":"十一、前端与 JavaScript / CSS","w":"Map / Set / WeakMap","h":"麦普 / 赛特 / 维克麦普","p":"/mæp / sɛt / wiːk mæp/","m":"集合数据结构","n":"Map 键值对（键可为任意类型）、Set 去重集合、WeakMap 弱引用键值对（防内存泄漏）。"},{"i":342,"c":"十一、前端与 JavaScript / CSS","w":"WeakSet","h":"维克赛特","p":"/wiːk sɛt/","m":"弱引用集合","n":"成员为对象的弱引用集合，配合垃圾回收避免泄漏。"},{"i":343,"c":"十一、前端与 JavaScript / CSS","w":"Proxy","h":"普若克西","p":"/ˈprɒksi/","m":"代理对象","n":"拦截对象基础操作的机制（get/set 等），Vue3 响应式的底层实现。"},{"i":344,"c":"十一、前端与 JavaScript / CSS","w":"Reflect","h":"瑞弗莱克特","p":"/rɪˈflɛkt/","m":"反射对象","n":"与 Proxy 配套的标准反射方法集，让默认行为可被安全调用。"},{"i":345,"c":"十一、前端与 JavaScript / CSS","w":"Decorator","h":"戴克瑞特","p":"/ˈdɛkəreɪtər/","m":"装饰器","n":"`@xxx` 语法（Python/TS），给类/方法附加行为的标记，AOP 切面常用。"},{"i":346,"c":"十一、前端与 JavaScript / CSS","w":"Type / Interface / Generic / Infer / Never / Parameters / ReturnType","h":"泰普 / 因特菲斯 / 杰内瑞克 / 因弗 / 耐沃 / 帕拉米特斯 / 瑞腾泰普","p":"/taɪp / ˈɪntərfeɪs / dʒəˈnɛrɪk / ɪnˈfɜːr / ˈnɛvər / pəˈræmɪtərz / rɪˈtɜːrn taɪp/","m":"TypeScript 类型家族","n":"基本类型注解 / 结构接口 / 泛型 / 类型推断 `infer` / 永不值类型 `never` / 取参数类型 / 取返回类型——TS 类型体操的核心工具。"},{"i":347,"c":"十一、前端与 JavaScript / CSS","w":"typeof / instanceof","h":"泰波夫 / 因斯坦斯奥夫","p":"/taɪp ɒv / ˈɪnstəns ɒv/","m":"类型判断","n":"typeof 返回基础类型字符串；instanceof 判断对象是否属于某构造函数的实例。"},{"i":348,"c":"十一、前端与 JavaScript / CSS","w":"Array / Object / Number / String / Boolean / RegExp / Date / Math","h":"阿瑞 / 奥布杰克特 / 南伯 / 斯特林 / 布林 / 瑞杰艾克斯屁 / 戴特 / 麦斯","p":"/əˈreɪ / ˈɒbdʒɪkt / ˈnʌmbər / strɪŋ / ˈbuːliən / ˌrɛdʒ ˌiː ˌɛks ˈpiː / deɪt / mæθ/","m":"JS 内置对象","n":"基础数据类型工具箱，面试常考其方法与原型链。"},{"i":349,"c":"十一、前端与 JavaScript / CSS","w":"Prototype","h":"普若托泰普","p":"/ˈproʊtətaɪp/","m":"原型对象","n":"JS 对象继承机制的底层：`obj.__proto__` 指向原型，方法沿原型链查找。"},{"i":350,"c":"十一、前端与 JavaScript / CSS","w":"class / extends","h":"克拉斯 / 艾克斯腾兹","p":"/klæs / ɪkˈstɛndz/","m":"类 / 继承","n":"ES6 语法糖类的声明与继承（底层仍是原型链）。"},{"i":351,"c":"十一、前端与 JavaScript / CSS","w":"console.log","h":"康索尔·洛格","p":"/kənˈsoʊl lɒɡ/","m":"控制台输出","n":"调试输出的第一工具，也是输出顺序面试题的纸上推演对象。"},{"i":352,"c":"十一、前端与 JavaScript / CSS","w":"Debounce","h":"迪邦斯","p":"/ˌdiːˈbaʊns/","m":"防抖","n":"高频触发时\"等停止后才执行一次\"（搜索联想、输入框），和节流对应。"},{"i":353,"c":"十一、前端与 JavaScript / CSS","w":"Throttle","h":"斯若透","p":"/ˈθrɒtəl/","m":"节流","n":"固定间隔内最多执行一次（滚动、点击、resize），与防抖互补。"},{"i":354,"c":"十一、前端与 JavaScript / CSS","w":"Event Bus / bus","h":"伊文特·巴斯 / 巴斯","p":"/ɪˈvɛnt bʌs / bʌs/","m":"事件总线","n":"全局事件发布订阅机制（emit 发 / on 收），替代跨组件通信，复杂度上来后易踩坑。"},{"i":355,"c":"十二、工程、协作、安全与通用指标","w":"Git","h":"吉特","p":"/ɡɪt/","m":"分布式版本控制","n":"代码版本管理工具，commit（提交）/ rebase（变基）/ branch（分支）是协作日常。"},{"i":356,"c":"十二、工程、协作、安全与通用指标","w":"CI / CD","h":"西艾 / 西迪","p":"/ˌsiː ˈaɪ / ˌsiː ˈdiː/","m":"持续集成 / 持续交付","n":"CI 自动构建+测试保证每次合并都健康；CD 自动部署上线。Lighthouse 跑分、单测门槛经常挂在 CI 里防退化。"},{"i":357,"c":"十二、工程、协作、安全与通用指标","w":"Docker","h":"道克","p":"/ˈdɒkər/","m":"容器化技术","n":"把应用和环境打包成镜像、秒级启动的容器，交付与部署标准件。"},{"i":358,"c":"十二、工程、协作、安全与通用指标","w":"docker-compose","h":"道克·康波兹","p":"/ˈdɒkər kəmˈpoʊz/","m":"容器编排工具","n":"用 yaml 一次拉起多个容器服务（本地联调常用）。"},{"i":359,"c":"十二、工程、协作、安全与通用指标","w":"K8s / Kubernetes","h":"K艾茨 / 库伯耐茨","p":"/ˌkeɪ ˈeɪts / ˌkuːbərˈnɛtiːz/","m":"容器编排平台","n":"生产级容器管理（自动扩缩容、滚动更新、故障自愈），私有化/规模化部署的底座。"},{"i":360,"c":"十二、工程、协作、安全与通用指标","w":"Pod","h":"泡德","p":"/pɒd/","m":"K8s 最小调度单元","n":"一个或多个容器组成的调度单位（相当于\"一个应用实例\"）。"},{"i":361,"c":"十二、工程、协作、安全与通用指标","w":"HPA (Horizontal Pod Autoscaler)","h":"艾尺屁诶","p":"/ˌeɪtʃ ˌpiː ˈeɪ/","m":"水平自动扩缩","n":"K8s 按 CPU/自定义指标自动增减 Pod 数量，扛住流量波动。","pf":"/ˌhɒrɪˈzɒntl pɒd ˈɔːtəʊskeɪlər/","hf":"霍瑞臧透·泡德·奥托斯凯勒"},{"i":362,"c":"十二、工程、协作、安全与通用指标","w":"nginx","h":"恩金艾克斯","p":"/ˌɛn ˈdʒɪn ˌɛks/","m":"高性能 Web/反向代理","n":"入口网关/负载均衡/静态服务/SSE 代理，微服务架构标配。"},{"i":363,"c":"十二、工程、协作、安全与通用指标","w":"Serverless","h":"瑟沃勒斯","p":"/ˈsɜːrvərləs/","m":"无服务器","n":"不关心服务器、按调用计费、自动弹性伸缩的云函数形态，适合低频任务。"},{"i":364,"c":"十二、工程、协作、安全与通用指标","w":"OpenTelemetry","h":"欧盆·特莱麦吹","p":"/ˈoʊpən təˈlɛmətri/","m":"可观测性标准框架","n":"统一采集 trace / metric / log 的开源标准，可观测体系的事实标准。"},{"i":365,"c":"十二、工程、协作、安全与通用指标","w":"ELK / Filebeat / Fluentd","h":"伊艾勒凯 / 法伊尔碧特 / 弗卢恩特","p":"/ˌiː ˌɛl ˈkeɪ / ˈfaɪlbiːt / ˈfluːənt ˌdiː/","m":"日志栈 / 采集器","n":"ELK = Elasticsearch + Logstash + Kibana；Filebeat/Fluentd 是轻量日志采集器。"},{"i":366,"c":"十二、工程、协作、安全与通用指标","w":"RBAC (Role-Based Access Control)","h":"阿碧诶西","p":"/ˈɑːrbæk/","m":"基于角色的访问控制","n":"把权限配到角色、角色绑用户，管理后台/多租户权限的通用模型。","pf":"/rəʊl beɪst ˈækses kənˈtrəʊl/","hf":"若尔·贝斯特·艾克赛斯·康吹尔"},{"i":367,"c":"十二、工程、协作、安全与通用指标","w":"JWT (JSON Web Token)","h":"杰达不溜提","p":"/ˌdʒeɪ ˌdʌbəljuː ˈtiː/","m":"无状态登录令牌","n":"签名自包含的令牌，登录态/鉴权头常用，痛点是没有刷新与吊销。","pf":"/ˈdʒeɪsən web ˈtəʊkən/","hf":"杰森·韦布·托肯"},{"i":368,"c":"十二、工程、协作、安全与通用指标","w":"CORS (Cross-Origin Resource Sharing)","h":"科斯","p":"/kɔːrz/","m":"跨域资源共享","n":"浏览器同源策略的\"放行文件\"，前后端分离联调必配。","pf":"/krɒs ˈɒrɪdʒɪn rɪˈzɔːs ˈʃeərɪŋ/","hf":"克罗斯·奥瑞今·瑞造斯·舍瑞因"},{"i":369,"c":"十二、工程、协作、安全与通用指标","w":"XSS (Cross-Site Scripting)","h":"艾克斯艾斯艾斯","p":"/ˌɛks ˌɛs ˈɛs/","m":"跨站脚本攻击","n":"往页面注入恶意脚本窃取数据，前端安全审计重点（转义/白名单）。","pf":"/krɒs saɪt ˈskrɪptɪŋ/","hf":"克罗斯·赛特·斯克利普丁"},{"i":370,"c":"十二、工程、协作、安全与通用指标","w":"Injection","h":"因杰克申","p":"/ɪnˈdʒɛkʃən/","m":"注入攻击","n":"把恶意代码/命令拼接进执行上下文（SQL 注入等），参数化 + 校验是治本。"},{"i":371,"c":"十二、工程、协作、安全与通用指标","w":"SQL 注入","h":"艾斯Q艾勒·因杰克申","p":"/ˌɛs ˌkjuː ˈɛl/","m":"SQL 注入攻击","n":"最经典的注入攻击之一，用参数化查询(Prepared Statement)防御。"},{"i":372,"c":"十二、工程、协作、安全与通用指标","w":"PII (Personal Identifiable Information)","h":"屁艾艾","p":"/ˌpiː ˌaɪ ˈaɪ/","m":"个人敏感信息","n":"姓名/手机号/证件号等可识别个人的数据，合规与脱敏处理的对象。","pf":"/ˈpɜːsənl aɪˈdentɪfaɪəbl ˌɪnfəˈmeɪʃn/","hf":"珀森诺·艾登提法伊厄波·因弗麦申"},{"i":373,"c":"十二、工程、协作、安全与通用指标","w":"POC (Proof of Concept)","h":"P·O·C","p":"/ˌpiː ˌoʊ ˈsiː/","m":"概念验证","n":"见 RAG 章：拿真实用例跑通验证方案可行性。","pf":"/pruːf əv ˈkɒnsept/","hf":"普鲁夫·奥夫·康塞普特"},{"i":374,"c":"十二、工程、协作、安全与通用指标","w":"MVP (Minimum Viable Product)","h":"艾姆维屁","p":"/ˌɛm ˌviː ˈpiː/","m":"最小可行产品","n":"两周交付私有化时先砍掉非核心功能、锁定核心闭环 MVP 范围的做法。","pf":"/ˈmɪnɪməm ˈvaɪəbl ˈprɒdʌkt/","hf":"米尼莫姆·外厄波·普若达克特"},{"i":375,"c":"十二、工程、协作、安全与通用指标","w":"ROI (Return on Investment)","h":"阿欧艾","p":"/ˌɑːr ˌoʊ ˈaɪ/","m":"投资回报率","n":"投入产出比，技术方案/降本措施的价值衡量。","pf":"/rɪˈtɜːn ɒn ɪnˈvestmənt/","hf":"瑞腾·昂·因维斯特门特"},{"i":376,"c":"十二、工程、协作、安全与通用指标","w":"KPI (Key Performance Indicator)","h":"凯屁艾","p":"/ˌkeɪ ˌpiː ˈaɪ/","m":"关键绩效指标","n":"团队/个人核心考核指标（可用性、交互成功率、成本等）。","pf":"/kiː pəˈfɔːməns ˈɪndɪkeɪtə/","hf":"基·珀佛门斯·因迪凯特"},{"i":377,"c":"十二、工程、协作、安全与通用指标","w":"QPS (Queries Per Second)","h":"Q屁艾斯","p":"/ˌkjuː ˌpiː ˈɛs/","m":"每秒请求数","n":"系统吞吐指标，压测与容量规划的基准（\"单机 30 QPS\"）。","pf":"/ˈkwɪəriz pɜː ˈsekənd/","hf":"奎瑞兹·珀·赛肯德"},{"i":378,"c":"十二、工程、协作、安全与通用指标","w":"P95 / P99 / Percentile","h":"屁九五 / 屁九九 / 珀森泰尔","p":"/ˌpiː ˌnaɪnti ˈfaɪv / ˌpiː ˌnaɪnti ˈnaɪn / pərˈsɛntaɪl/","m":"百分之九十五/九十九分位延迟","n":"去掉最慢 5%/1% 后的延迟上限，比平均值更能反映真实体验（\"检索 p95 200ms\"）。"},{"i":379,"c":"十二、工程、协作、安全与通用指标","w":"RTT (Round-Trip Time)","h":"R·T·T","p":"/ˌɑːr ˌtiː ˈtiː/","m":"往返时延","n":"见后端章，网络往返耗时。","pf":"/raʊnd trɪp taɪm/","hf":"让德·吹普·泰姆"},{"i":380,"c":"十二、工程、协作、安全与通用指标","w":"STAR (Situation Task Action Result)","h":"斯塔","p":"/stɑːr/","m":"情境-任务-行动-结果","n":"结构化讲项目/事故的叙述框架（背景→现象→排查→方案→结果），面试回答模板。","pf":"/ˌsɪtʃuˈeɪʃn tæsk ˈækʃn rɪˈzʌlt/","hf":"西丘埃申·塔斯克·阿克申·瑞造特"},{"i":381,"c":"十二、工程、协作、安全与通用指标","w":"AB Test / A/B","h":"诶碧·泰斯特 / 诶碧","p":"/ˌeɪ ˈbiː tɛst / ˌeɪ ˈbiː/","m":"A/B 实验","n":"把用户分流到新旧方案对比指标（成功率/满意度/成本）的灰度实验，Prompt/模型改动上线前必走。"},{"i":382,"c":"十二、工程、协作、安全与通用指标","w":"Gray Release","h":"格雷·瑞利斯","p":"/ɡreɪ rɪˈliːs/","m":"灰度发布","n":"按比例逐步放量新版本，配合一键回滚降低上线风险。"},{"i":383,"c":"十二、工程、协作、安全与通用指标","w":"Failover / Fallback","h":"菲尔欧沃 / 佛尔拜克","p":"/ˈfeɪloʊvər / ˈfɔːlbæk/","m":"故障转移 / 兜底","n":"见后端章，高可用的兜底双保险。"},{"i":384,"c":"十二、工程、协作、安全与通用指标","w":"MVP (Minimum Viable Product)","h":"M·V·P","p":"/ˌem ˌviː ˈpiː/","m":"见上","n":"最小可行产品。","pf":"/ˈmɪnɪməm ˈvaɪəbl ˈprɒdʌkt/","hf":"米尼蒙·瓦伊阿波·普罗达克特"},{"i":385,"c":"十二、工程、协作、安全与通用指标","w":"Demo","h":"德莫","p":"/ˈdɛmoʊ/","m":"演示","n":"可演示的最小成果/演示环境，也指面试展示作品。"},{"i":386,"c":"十二、工程、协作、安全与通用指标","w":"FAQ (Frequently Asked Questions)","h":"艾弗诶Q","p":"/ˌɛf ˌeɪ ˈkjuː/","m":"常见问题","n":"高频问答库，通常是 RAG 知识库的第一个落地场景。","pf":"/ˈfriːkwəntli ɑːskt ˈkwestʃənz/","hf":"弗瑞克温特利·阿斯克特·奎斯申兹"},{"i":387,"c":"十二、工程、协作、安全与通用指标","w":"UI (User Interface)","h":"尤艾","p":"/ˌjuː ˈaɪ/","m":"用户界面","n":"产品界面与交互层，和 UX（用户体验）常并列。","pf":"/ˈjuːzə ˈɪntəfeɪs/","hf":"尤泽·因特菲斯"},{"i":388,"c":"十二、工程、协作、安全与通用指标","w":"Review","h":"瑞维尤","p":"/rɪˈvjuː/","m":"代码评审","n":"代码合并前的审查环节，AI 生成代码必须过 review 加测试是质量控制铁律。"},{"i":389,"c":"十二、工程、协作、安全与通用指标","w":"License","h":"莱森斯","p":"/ˈlaɪsəns/","m":"开源许可协议","n":"决定开源代码能否商用/改动的法律条款，选型开源框架必看项。"},{"i":390,"c":"十二、工程、协作、安全与通用指标","w":"SaaS (Software as a Service)","h":"萨斯","p":"/sɑːs/","m":"软件即服务","n":"云端多租户订阅制交付模式（相对私有化部署）。","pf":"/ˈsɒftweə æz ə ˈsɜːvɪs/","hf":"索福特外尔·艾兹·呃·瑟维斯"},{"i":391,"c":"十二、工程、协作、安全与通用指标","w":"DevOps","h":"戴沃普斯","p":"/ˈdɛvɒps/","m":"开发运维一体化","n":"打通开发、测试、部署、运维的工程文化与实践。"},{"i":392,"c":"十二、工程、协作、安全与通用指标","w":"GraphQL (Graph Query Language)","h":"格拉夫·Q·L","p":"/ɡræf ˌkjuː ˈel/","m":"查询语言","n":"由客户端声明所需字段的 API 查询语言，减少过度/不足获取。","pf":"/ɡræf ˈkwɪəri ˈlæŋɡwɪdʒ/","hf":"格拉夫·奎尔瑞·兰格维吉"},{"i":393,"c":"十二、工程、协作、安全与通用指标","w":"Server","h":"瑟沃","p":"/ˈsɜːrvər/","m":"服务器","n":"提供服务的一端（相对 Client），也作\"服务进程\"理解。"},{"i":394,"c":"十二、工程、协作、安全与通用指标","w":"TLS / HTTPS","h":"提艾勒艾斯 / 艾尺提提屁艾斯","p":"/ˌtiː ˌɛl ˈɛs / ˌeɪtʃ ˌtiː ˌtiː ˈpiː ˈɛs/","m":"见后端章","n":"线上安全传输基础。"},{"i":395,"c":"十二、工程、协作、安全与通用指标","w":"MD5 (Message Digest 5)","h":"M·D·五","p":"/ˌem ˌdiː ˈfaɪv/","m":"摘要算法","n":"生成固定 128bit 指纹的哈希算法，常用于文件完整性校验（安全性弱，不适合存密码）。","pf":"/ˈmesɪdʒ ˈdaɪdʒest faɪv/","hf":"梅西吉·达伊杰斯特·五"},{"i":396,"c":"十二、工程、协作、安全与通用指标","w":"UUID (Universally Unique Identifier)","h":"U·U·I·D","p":"/ˌjuː ˌjuː ˌaɪ ˈdiː/","m":"通用唯一标识","n":"全局唯一的 128bit 标识符，分布式系统主键/请求 ID 常规选择。","pf":"/ˌjuːnɪˈvɜːrsəli juˈniːk aɪˈdentɪfaɪər/","hf":"尤尼沃瑟利·尤尼克·爱登提法伊尔"},{"i":397,"c":"十二、工程、协作、安全与通用指标","w":"Worker","h":"沃克","p":"/ˈwɜːrkər/","m":"工作线程","n":"浏览器 Web Worker（后台并行线程）/ 后端 worker 进程，别让重任务堵死主线程。"},{"i":398,"c":"十二、工程、协作、安全与通用指标","w":"Git 协作指令：commit / push / merge / rebase","h":"科密特 / 普什 / 默吉 / 瑞贝斯","p":"/kəˈmɪt / pʊʃ / mɜːrdʒ / ˌriːˈbeɪs/","m":"版本控制动作","n":"提交 / 推送 / 合并 / 变基，日常协作基本盘。"},{"i":399,"c":"十三、AI 编程工具与产品","w":"Copilot","h":"扣派勒特","p":"/ˈkoʊpaɪlət/","m":"GitHub AI 编程助手","n":"由 OpenAI 模型驱动的代码补全/生成工具，AI 编程的先行者。"},{"i":400,"c":"十三、AI 编程工具与产品","w":"Cursor","h":"克瑟","p":"/ˈkɜːrsər/","m":"AI 代码编辑器","n":"以\"AI 优先\"重构的编辑器，聊天式改代码、全仓理解，目前效率型工具代表。"},{"i":401,"c":"十三、AI 编程工具与产品","w":"Codeium","h":"扣迪姆","p":"/koʊˈdiːəm/","m":"AI 编程助手","n":"免费的 AI 代码补全工具，多编辑器支持。"},{"i":402,"c":"十三、AI 编程工具与产品","w":"通义灵码","h":"通义灵码","p":"（中文品牌名，无 IPA）","m":"阿里 AI 编程助手","n":"国产 AI 编程助手，中文语境好。"},{"i":403,"c":"十三、AI 编程工具与产品","w":"AI Coding","h":"诶爱·扣丁","p":"/ˌeɪ ˈaɪ ˈkoʊdɪŋ/","m":"AI 辅助编码","n":"用 LLM 生成代码/单测/重构/审查的工程实践；铁律：AI 产出必须过 review 和测试。"},{"i":404,"c":"十三、AI 编程工具与产品","w":"Figma","h":"菲格玛","p":"/ˈfɪɡmə/","m":"设计协作工具","n":"UI 设计稿制作与协作平台，前端还原设计的源头。"},{"i":405,"c":"十三、AI 编程工具与产品","w":"Lint / lint","h":"林特 / 林特","p":"/lɪnt / lɪnt/","m":"代码检查","n":"静态检查代码风格与潜在 bug 的工具（如 ESLint），质量门槛之一。"},{"i":406,"c":"十三、AI 编程工具与产品","w":"Profiler","h":"普若法伊勒","p":"/ˈproʊfaɪlər/","m":"性能分析器","n":"定位 CPU/内存/渲染耗时的剖析工具，前端性能优化的侦察兵。"},{"i":407,"c":"十三、AI 编程工具与产品","w":"README","h":"瑞德米","p":"/ˈriːd miː/","m":"项目说明文档","n":"项目的\"门面说明\"，仓库首页，通常含快速上手。"},{"i":408,"c":"十三、AI 编程工具与产品","w":"POC / MVP / Demo","h":"屁欧西 / 艾姆维屁 / 德莫","p":"/ˌpiː ˌoʊ ˈsiː / ˌɛm ˌviː ˈpiː / ˈdɛmoʊ/","m":"概念验证 / 最小产品 / 演示","n":"见通用指标章：分别对应\"能不能行\"\"最小可用\"\"展示成果\"三层形态。"}]};
+</script>
+<script>
+(function(){
+  var D = window.VOCAB_DATA || { meta:{cats:[], total:0}, words:[] };
+  var WORDS = D.words || [];
+  var CATS = (D.meta && D.meta.cats) || [];
+  var state = { q:"", cat:null, limit:500 };
+
+  var $ = function(id){ return document.getElementById(id); };
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
+    });
+  }
+  function hl(text, q){
+    var safe = esc(text);
+    if(!q) return safe;
+    try{
+      var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig");
+      return safe.replace(re, "<mark>$1</mark>");
+    }catch(e){ return safe; }
+  }
+  function shortCat(c){ return String(c || "").replace(/^[一二三四五六七八九十]+、/, ""); }
+
+  /* ---------- 发音 ---------- */
+  var voices = [];
+  function loadVoices(){
+    if(!("speechSynthesis" in window)) return;
+    voices = window.speechSynthesis.getVoices() || [];
+  }
+  if("speechSynthesis" in window){
+    loadVoices();
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    if(window.speechSynthesis.onvoiceschanged !== undefined) window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  function pickVoice(){
+    if(!voices.length) loadVoices();
+    var i;
+    for(i=0;i<voices.length;i++){ if(/^en[-_]US/i.test(voices[i].lang)) return voices[i]; }
+    for(i=0;i<voices.length;i++){ if(/^en[-_]/i.test(voices[i].lang)) return voices[i]; }
+    for(i=0;i<voices.length;i++){ if(/english/i.test(voices[i].name)) return voices[i]; }
+    return null;
+  }
+  function speakText(word){
+    var s = String(word || "").trim();
+    s = s.split("/")[0].trim();                       // 多义词只读第一段
+    s = s.replace(/^[A-Za-z]?\d+\s*[:：]\s*/, "");     // 去掉 "R58: " 之类编号
+    var paren = s.match(/^(.*?)\s*[（(]([^)）]*)[)）]\s*$/);
+    if(paren){
+      var outer = paren[1].trim(), inner = paren[2].trim();
+      s = outer.length >= 3 ? outer : inner;
+    }
+    s = s.replace(/[.,;:!?]+$/g, "").trim();
+    return s || String(word || "");
+  }
+  function speak(word, btn){
+    var text = speakText(word);
+    if(!text || !("speechSynthesis" in window)) return;
+    try{
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US"; u.rate = 0.92; u.pitch = 1;
+      var v = pickVoice();
+      if(v) u.voice = v;
+      if(btn){
+        btn.classList.add("playing");
+        var off = function(){ btn.classList.remove("playing"); };
+        u.onend = off; u.onerror = off;
+      }
+      window.speechSynthesis.speak(u);
+    }catch(e){ if(btn) btn.classList.remove("playing"); }
+  }
+
+  /* ---------- 渲染 ---------- */
+  function match(w, q, cat){
+    if(cat && w.c !== cat) return false;
+    if(!q) return true;
+    var k = q.toLowerCase();
+    return (w.w + " " + w.h + " " + (w.hf || "") + " " + w.m + " " + w.n + " " + w.p + " " + (w.pf || "") + " " + w.c).toLowerCase().indexOf(k) >= 0;
+  }
+
+  function cardHtml(w, q, idx){
+    var note = String(w.n || "");
+    var long = note.length > 110;
+    return '<div class="card">' +
+      '<div class="word-col">' +
+        '<div class="word-line">' +
+          '<span class="word">' + hl(w.w, q) + '</span>' +
+          '<button type="button" class="speak-btn" data-word="' + esc(w.w) + '" title="朗读发音" aria-label="朗读 ' + esc(w.w) + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M11 5 6 9H3v6h3l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path>' +
+            '</svg>' +
+          '</button>' +
+        '</div>' +
+        '<div class="phonetic-block">' +
+          (w.p ? '<div class="phonetic-ipa"><b>音标</b>' + esc(w.p) + (w.pf ? '<span class="form2">' + esc(w.pf) + '</span>' : '') + '</div>' : '') +
+          (w.h ? '<div class="phonetic-homo"><b>谐音</b>' + esc(w.h) + (w.hf ? '<span class="form2">' + esc(w.hf) + '</span>' : '') + '</div>' : '') +
+          (w.m ? '<div class="phonetic-mean"><b>含义</b>' + esc(w.m) + '</div>' : '') +
+        '</div>' +
+        '<div class="cat-tag">' + esc(w.c) + '</div>' +
+      '</div>' +
+      '<div class="body-col">' +
+        '<div class="explain' + (long ? '' : ' open') + '">' + hl(note, q) + '</div>' +
+        (long ? '<button type="button" class="more-btn">展开全文</button>' : '') +
+      '</div>' +
+      '<div class="meta-col">' +
+        '<span class="no-badge">No.' + String(w.i).padStart(3, "0") + '</span>' +
+        '<span class="cat-badge">' + esc(shortCat(w.c)) + '</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function render(){
+    var q = state.q.trim();
+    var list = WORDS.filter(function(w){ return match(w, q, state.cat); });
+    var total = list.length;
+    var shown = list.slice(0, state.limit);
+
+    $("resultCount").textContent = total;
+    $("filterHint").textContent = (state.cat || q)
+      ? "　（章节：" + (state.cat ? shortCat(state.cat) : "全部") + (q ? " · 关键词：“" + q + "”" : "") + "）"
+      : "";
+
+    if(!total){
+      $("list").innerHTML = "";
+      $("emptyState").style.display = "block";
+      return;
+    }
+    $("emptyState").style.display = "none";
+
+    var html = shown.map(function(w, i){ return cardHtml(w, q, i); }).join("");
+    if(total > shown.length){
+      html += '<div class="empty" style="padding:26px 20px">' +
+        '<div>已显示前 <strong>' + shown.length + '</strong> 条，共 ' + total + ' 条。</div>' +
+        '<button type="button" id="moreLoad">加载更多</button></div>';
+    }
+    $("list").innerHTML = html;
+    var btn = $("moreLoad");
+    if(btn){
+      btn.addEventListener("click", function(){
+        state.limit += 200; render();
+      });
+    }
+  }
+
+  function buildChips(){
+    var box = $("catChips");
+    var counts = {};
+    WORDS.forEach(function(w){ counts[w.c] = (counts[w.c] || 0) + 1; });
+    var html = '<div class="chip active" data-cat="">全部<span class="n">' + WORDS.length + '</span></div>';
+    CATS.forEach(function(c){
+      html += '<div class="chip" data-cat="' + esc(c) + '">' + esc(shortCat(c)) + '<span class="n">' + (counts[c] || 0) + '</span></div>';
+    });
+    box.innerHTML = html;
+    box.addEventListener("click", function(e){
+      var chip = e.target.closest(".chip");
+      if(!chip) return;
+      state.cat = chip.getAttribute("data-cat") || null;
+      state.limit = 500;
+      Array.prototype.forEach.call(box.querySelectorAll(".chip"), function(c){
+        c.classList.toggle("active", c === chip);
+      });
+      render();
+    });
+  }
+
+  /* ---------- 交互 ---------- */
+  function resetAll(){
+    state.q = ""; state.cat = null; state.limit = 500;
+    $("searchInput").value = "";
+    Array.prototype.forEach.call(document.querySelectorAll("#catChips .chip"), function(c, i){
+      c.classList.toggle("active", i === 0);
+    });
+    render();
+  }
+
+  var timer = null;
+  $("searchInput").addEventListener("input", function(e){
+    var v = e.target.value;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      state.q = v; state.limit = 500; render();
+    }, 120);
+  });
+  $("resetBtn").addEventListener("click", resetAll);
+  $("emptyReset").addEventListener("click", resetAll);
+  $("randomBtn").addEventListener("click", function(){
+    if(!WORDS.length) return;
+    var idx = Math.floor(Math.random() * WORDS.length) + 1;
+    resetAll();
+    state.limit = Math.max(state.limit, idx);
+    render();
+    var card = document.querySelectorAll("#list .card")[idx - 1];
+    if(card){
+      card.scrollIntoView({ behavior:"smooth", block:"center" });
+      card.style.borderColor = "var(--brand)";
+      card.style.boxShadow = "0 6px 22px rgba(42,37,29,.14)";
+      setTimeout(function(){ card.style.borderColor = ""; card.style.boxShadow = ""; }, 2200);
+    }
+  });
+
+  document.addEventListener("click", function(e){
+    var sb = e.target.closest(".speak-btn");
+    if(sb){ speak(sb.getAttribute("data-word"), sb); return; }
+    var mb = e.target.closest(".more-btn");
+    if(mb){
+      var ex = mb.parentNode.querySelector(".explain");
+      var open = ex.classList.toggle("open");
+      mb.textContent = open ? "收起" : "展开全文";
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "/" && document.activeElement !== $("searchInput")){
+      e.preventDefault(); $("searchInput").focus();
+    }else if(e.key === "Escape"){
+      resetAll();
+    }
+  });
+
+  /* ---------- 统计 ---------- */
+  $("statTotal").textContent = WORDS.length;
+  $("statCat").textContent = CATS.length;
+  $("statHomo").textContent = WORDS.filter(function(w){ return w.h; }).length;
+  $("statIpa").textContent = WORDS.filter(function(w){ return w.pf; }).length;
+
+  buildChips();
+  render();
+})();
+</script>
+</body>
+</html>
